@@ -1,0 +1,15 @@
+{{global-navbar path='lessons'}}
+<div class="p-5">
+  <div class="row">
+    {{#each model as |lesson|}}
+      <div class="col-4">
+        {{lesson-card name=lesson.name id=lesson.id}}
+      </div>
+    {{/each}}
+    <div class="col-4">
+      {{lesson-card new='True'}}
+    </div>
+  </div>
+</div>
+
+{{global-modals}}

@@ -1,0 +1,24 @@
+{
+  "name": "walat",
+  "version": "2.0.0",
+  "description": "WALAT-NEXT",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "swagger"
+  ],
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect": "^3.6.6",
+    "cors": "^2.8.4",
+    "js-yaml": "^3.3.0",
+    "sequelize": "^4.37.6",
+    "sqlite3": "^4.0.0",
+    "swagger-tools": "0.10.1"
+  }
+}

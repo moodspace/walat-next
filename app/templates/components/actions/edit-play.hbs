@@ -1,0 +1,21 @@
+<div class="dropzone {{if draggedOver 'border-primary' ''}} card" style="height: 5rem;"
+    ondrop={{action 'setValueUpload'}}
+    ondragover={{action 'handleDragOver'}}
+    ondragenter={{action 'handleDragOver'}}
+    ondragleave={{action 'handleDragLeave'}}>
+  <div class="card-body d-flex justify-content-center align-items-center">
+    <div class="h6 m-0">
+      Drop file here
+    </div>
+  </div>
+</div>
+
+{{#if soundLoaded}}
+  <div class="card mt-3">
+    <div class="card-body d-flex justify-content-center align-items-center">
+      <audio controls style="width: 100%;">
+        <source src="{{sound}}">
+      </audio>
+    </div>
+  </div>
+{{/if}}

@@ -1,0 +1,34 @@
+<div class="form-row">
+  <div class="col">
+    <div class="form-group form-row mb-0">
+      <label class="col-form-label-sm">Type</label>
+      <div class="col">
+        <select class="form-control form-control-sm" onchange= {{action "setValueType" value="target.value"}}>
+          <option disabled selected={{and (not-eq type "fixed") (not-eq type "variable")}}>Please select</option>
+          <option value="fixed" selected={{eq type "fixed"}}>Fixed</option>
+          <option value="variable" selected={{eq type "variable"}}>Variable</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="form-group form-row mb-0">
+      {{#if (eq type "fixed") }}
+        <label class="col-form-label-sm">Duration</label>
+        <div class="col">
+          <input class="form-control form-control-sm" value="{{length}}" oninput= {{action "setValueDuration" value="target.value"}}>
+        </div>
+      {{/if}}
+      {{#if (eq type "variable") }}
+        <label class="col-form-label-sm">Duration</label>
+        <div class="col">
+          <select class="form-control form-control-sm" value="{{length}}" onchange= {{action "setValueDuration" value="target.value"}}>
+            <option disabled selected={{and (not-eq length "thisSound") (not-eq length "nextSound")}}>Please select</option>
+            <option value="thisSound" selected={{eq type "thisSound"}}>This sound</option>
+            <option value="nextSound" selected={{eq type "nextSound"}}>Next sound</option>
+          </select>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

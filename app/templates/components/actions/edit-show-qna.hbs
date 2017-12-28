@@ -1,0 +1,56 @@
+<div class="form-row">
+  <div class="col">
+    <div class="form-group form-row mb-0">
+      <label class="col-form-label-sm">Type</label>
+      <div class="col">
+        <select class="form-control form-control-sm" onchange={{action "setValueType" value="target.value"}}>
+          <option disabled selected={{and (not-eq type "sans") (not-eq type "fill") (not-eq type "mulc")}}>Please select</option>
+          <option value="sans" selected={{eq type "sans"}}>Short answer</option>
+          <option value="fill" selected={{eq type "fill"}}>Filling blanks</option>
+          <option value="mulc" selected={{eq type "mulc"}}>Multiple choice</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#if (equal type "sans") }}
+  <div class="form-group">
+    <label class="col-form-label-sm">Question</label>
+    <textarea class="form-control form-control-sm" value="{{sansQuestion}}" oninput={{action "setValueQuestion" value="target.value"}}>
+    </textarea>
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Answer</label>
+    <textarea class="form-control form-control-sm" value="{{sansAnswer}}" oninput={{action "setValueAnswer" value="target.value"}}>
+    </textarea>
+  </div>
+{{/if}}
+
+{{#if (equal type "fill") }}
+  <div class="form-group">
+    <label class="col-form-label-sm">Question</label>
+    <textarea class="form-control form-control-sm" value="{{fillQuestion}}" oninput={{action "setValueQuestion" value="target.value"}}>
+  </textarea>
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Full text</label>
+    <textarea class="form-control form-control-sm" value="{{fillAnswer}}" oninput={{action "setValueAnswer" value="target.value"}}
+              placeholder="Enter the full text, then for any blank to fill, wrap with '[' and ']' on each side.">
+    </textarea>
+  </div>
+{{/if}}
+
+{{#if (equal type "mulc") }}
+  <div class="form-group">
+    <label class="col-form-label-sm">Question</label>
+    <textarea class="form-control form-control-sm" value="{{mulcQuestion}}" oninput={{action "setValueQuestion" value="target.value"}}>
+    </textarea>
+  </div>
+  <div class="form-group">
+    <label class="col-form-label-sm">Choices</label>
+    <textarea class="form-control form-control-sm" value="{{mulcAnswer}}" oninput={{action "setValueAnswer" value="target.value"}}
+              placeholder="Enter one choice per line, starting with [T] or [F] followed by text.">
+    </textarea>
+  </div>
+{{/if}}

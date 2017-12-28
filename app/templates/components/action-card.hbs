@@ -1,0 +1,83 @@
+<div class="card" onmouseEnter={{action 'showButtons'}} onmouseLeave={{action 'showButtons'}}>
+  <div class="card-body pt-0">
+    <div class="d-flex justify-content-between">
+      <div class="h5 card-title mt-3">{{action.type}}</div>
+      <div class="d-flex justify-content-end">
+        {{#if showButtons}}
+          <button type="button" class="btn btn-link text-dark">
+            <i class="mdi mdi-eye"></i>
+          </button>
+          <button type="button" {{action 'showEdit'}} class="btn btn-link text-{{if showEdit 'success' 'dark'}}">
+            <i class="mdi mdi-{{if showEdit 'check-outline' 'pencil'}}"></i>
+          </button>
+          <button type="button" {{action 'removeAction' action.id}} class="btn btn-link text-danger">
+            <i class="mdi mdi-delete"></i>
+          </button>
+        {{/if}}
+      </div>
+    </div>
+    {{#if showEdit}}
+      {{#if (equal action.type 'show directions')}}
+        {{actions/edit-text label='Directions text' value=action.text}}
+      {{else if (equal action.type 'hide')}}
+        {{actions/edit-hide label='Component to hide'}}
+      {{else if (equal action.type 'play')}}
+        {{actions/edit-asset label='Upload a sound'}}
+      {{else if (equal action.type 'qna')}}
+        {{actions/edit-qna}}
+      {{else if (equal action.type 'record')}}
+        {{actions/edit-record}}
+      {{else if (equal action.type 'text')}}
+        {{actions/edit-richtext}}
+      {{else if (equal action.type 'image')}}
+        {{actions/edit-asset label='Upload an image'}}
+      {{else if (equal action.type 'video')}}
+        {{actions/edit-asset label='Upload a video'}}
+      {{else}}
+        {{actions/edit-noop}}
+      {{/if}}
+    {{else}}
+      <div class="card-text">
+        {{#if (equal action.type 'hide')}}
+          {{#if (equal action.value.target 'text')}}
+            Text box
+          {{else if (equal action.value.target 'directions')}}
+            Directions box
+          {{else if (equal action.value.target 'buttons')}}
+            Comparison buttons
+          {{/if}}
+        {{else if (equal action.type 'show text')}}
+          {{{action.value.html}}}
+        {{else if (equal action.type 'show image')}}
+          <div class="d-flex justify-content-center align-items-center">
+            <img src="{{action.value.image}}" style="max-width: 100%; max-height: 300px;">
+          </div>
+        {{else if (equal action.type 'show video')}}
+          <div class="d-flex justify-content-center align-items-center">
+            <video controls style="width: 100%; max-height: 300px;">
+              <source src="{{action.value.video}}">
+            </video>
+          </div>
+        {{else if (equal action.type 'show qna')}}
+          {{#if (equal action.value.type 'sans')}}
+            {{action.value.sansQuestion}}, {{action.value.sansAnswer}}
+          {{else if (equal action.value.type 'fill')}}
+            {{action.value.fillQuestion}}, {{action.value.fillAnswer}}
+          {{else if (equal action.value.type 'mulc')}}
+            {{action.value.mulcQuestion}}, {{action.value.mulcAnswer}}
+          {{/if}}
+        {{else if (equal action.type 'show directions')}}
+          {{action.value.text}}
+        {{else if (equal action.type 'play')}}
+          <div class="d-flex justify-content-center align-items-center">
+            <audio controls style="width: 100%;">
+              <source src="{{action.value.sound}}">
+            </audio>
+          </div>
+        {{else if (equal action.type 'record')}}
+          {{action.value.type}}, {{action.value.length}}
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+</div>

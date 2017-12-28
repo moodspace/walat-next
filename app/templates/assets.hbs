@@ -1,0 +1,26 @@
+{{global-navbar path='assets'}}
+<div class="p-5">
+  <div class="row" style="height: 160px;">
+    <div class="col-4">
+      {{asset-type-card name='Sounds' i='music'}}
+    </div>
+    <div class="col-4">
+      {{asset-type-card name='Images' i='camera'}}
+    </div>
+    <div class="col-4">
+      {{asset-type-card name='Videos' i='video'}}
+    </div>
+    <div class="col-4">
+      <div class="card border-success mb-3 h-100">
+        <div class="card-body text-success d-flex justify-content-center align-items-center">
+          <div class="h5">
+            <i class="mdi mdi-plus"></i>  <!-- plus -->
+            Upload a new asset
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{global-modals}}

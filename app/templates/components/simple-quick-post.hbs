@@ -1,0 +1,51 @@
+<div class="wrapper-quick-post">
+  <ul class="nav nav-tabs border-0">
+    <li class="nav-item">
+      <a class="nav-link active show" data-toggle="tab" href="#edit">
+        <i class="mdi mdi-pencil"></i> New {{type}}
+      </a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="card bg-light tab-pane fade show active" id="edit">
+      <div class="m-3">
+        <div class="form-row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Type name here" name="script-line" value="{{script}}" oninput={{action 'inputName' value="target.value"}}>
+          </div>
+          <div class="col-auto d-flex justify-content-center">
+            {{#if scriptComplete}}
+              <button {{action 'addCollection'}} class="btn btn-link script-line-accessory">
+                <i class="mdi mdi-send mdi-24px"></i>
+              </button>
+            {{else}}
+              <button class="btn btn-link script-line-accessory" disabled>
+                <i class="mdi mdi-send mdi-24px"></i>
+              </button>
+            {{/if}}
+          </div>
+        </div>
+        <div class="m-3">
+          <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+            <button type="button" class="btn btn-dark btn-md">
+              <i class="mdi mdi-book"></i> Prefix
+            </button>
+            <div class="btn-group" role="group">
+              <button id="btnGroupDrop2" type="button" class="btn btn-dark btn-md dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                <a class="dropdown-item" href="javascript:void(0)" {{action 'stubComplete' 'show' 'text'}}>E</a>
+                <a class="dropdown-item" href="javascript:void(0)" {{action 'stubComplete' 'hide'}}>Exercise</a>
+                <a class="dropdown-item" href="javascript:void(0)" {{action 'stubComplete' 'show' 'image'}}>Set</a>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-dark btn-md">
+            <i class="mdi mdi-code-tags"></i> Templates</button>
+          <button type="button" class="btn btn-dark btn-md">
+            <i class="mdi mdi-history"></i> History
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
