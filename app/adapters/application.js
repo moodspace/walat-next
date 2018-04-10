@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 
 export default DS.JSONAPIAdapter.extend({
-  host: 'http://localhost:8000/v2'
+  host: 'http://localhost:8000',
+  namespace: 'v2'
 });

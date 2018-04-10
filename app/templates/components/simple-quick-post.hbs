@@ -14,7 +14,7 @@
             <input type="text" class="form-control" placeholder="Type name here" name="script-line" value="{{name}}" oninput={{action 'inputName' value="target.value"}}>
           </div>
           <div class="col-auto d-flex justify-content-center">
-            {{#if scriptComplete}}
+            {{#if nameComplete}}
               <button {{action 'addCollection'}} class="btn btn-link script-line-accessory">
                 <i class="mdi mdi-send mdi-24px"></i>
               </button>

@@ -41,7 +41,7 @@ export default Component.extend({
       this.set('newType', undefined);
     },
     removeAction(id) {
-      this.get('store').findRecord('action', id).then(function(a) {
+      this.get('store').findRecord('action', id, {reload: true}).then(function(a) {
         a.destroyRecord();
       });
     },

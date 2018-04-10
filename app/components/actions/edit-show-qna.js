@@ -14,21 +14,24 @@ const checker = (v) => {
     for (let i = 0; i < v.fillAnswer.length; i++) {
       if (v.fillAnswer[i] === '[' && paired) {
         paired = false;
-      } else if (v.fillAnswer[i] === ']' && !paired) {
+      } else if (v.fillAnswer[i] === ']' && !paired && v.fillAnswer[i - 1] !==
+        '[') {
         paired = true;
       } else if (v.fillAnswer[i] === '[' || v.fillAnswer[i] === ']') {
         return false;
       }
     }
-    return paired;
+    return paired && v.fillAnswer.includes('[');
   } else if (v.type === 'mulc') {
     if (!v.mulcQuestion || !v.mulcAnswer) {
       return false;
     }
     let marked = true;
-    const ansList = v.mulcAnswer.split('\n');
+    const ansList = v.mulcAnswer.trim().split('\n');
     for (let i = 0; i < ansList.length; i++) {
       if (!ansList[i].startsWith('[T]') && !ansList[i].startsWith('[F]')) {
+        marked = false;
+      } else if (ansList[i].slice(3).trim().length < 1) {
         marked = false;
       }
     }

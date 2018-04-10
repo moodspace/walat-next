@@ -1,19 +1,39 @@
 <div class="card bg-light mb-3">
   <div class="card-header">Overview</div>
-  <div class="card-body">
+  <div class="card-body p-2">
     <div class="d-flex flex-column align-items-start">
-      <div class="ml-0">
-        <i class="mdi mdi-resize-bottom-right"></i> {{klass.name}}
-      </div>
-      <div class="ml-2">
-        <i class="mdi mdi-resize-bottom-right"></i> {{lesson.name}}
-      </div>
-      <div class="ml-3">
-        <i class="mdi mdi-resize-bottom-right"></i> {{exercise.name}}
-      </div>
-      <div class="ml-4">
-        <i class="mdi mdi-resize-bottom-right"></i> {{page.name}}
-      </div>
+      {{#if klass}}
+        <div class="ml-0">
+          <i class="mdi mdi-teach"></i>
+            {{#link-to 'klass' klass.id}}
+              {{klass.name}}
+            {{/link-to}}
+        </div>
+      {{/if}}
+      {{#if lesson}}
+        <div class="ml-2">
+          <i class="mdi mdi-checkbox-multiple-blank-circle"></i>
+          {{#link-to 'lesson' klass.id lesson.id}}
+            {{lesson.name}}
+          {{/link-to}}
+        </div>
+      {{/if}}
+      {{#if exercise}}
+        <div class="ml-3">
+          <i class="mdi mdi-dots-horizontal"></i>
+          {{#link-to 'exercise' klass.id lesson.id exercise.id}}
+            {{exercise.name}}
+          {{/link-to}}
+        </div>
+      {{/if}}
+      {{#if page}}
+        <div class="ml-4">
+          <i class="mdi mdi-image-filter-tilt-shift"></i>
+          {{#link-to 'page' klass.id lesson.id exercise.id page.id}}
+            {{page.name}}
+          {{/link-to}}
+        </div>
+      {{/if}}
     </div>
   </div>
 </div>

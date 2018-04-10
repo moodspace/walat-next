@@ -6,13 +6,16 @@ var fs = require('fs'),
 
 var cors = require('cors')
 var bodyParser = require('body-parser');
-var app = require('connect')();
+var app = require('express')();
 var swaggerTools = require('swagger-tools');
 var jsyaml = require('js-yaml');
 var serverPort = 8000;
 
 app.use(cors());
 app.use(bodyParser.json({ type: 'application/vnd.api+json', limit: '100mb' }))
+
+const uploader = require('./controllers/Uploader.js');
+uploader(app);
 
 // swaggerRouter configuration
 var options = {

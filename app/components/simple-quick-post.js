@@ -8,7 +8,7 @@ export default Component.extend({
     inputName(name) {
       this.set('name', name);
       if (name.length > 0) {
-        this.set('scriptComplete', true);
+        this.set('nameComplete', true);
       }
     },
     addCollection() {
@@ -18,7 +18,8 @@ export default Component.extend({
             uuid: v4(),
             name: this.get('name')
           }).save();
-        this.set('scriptComplete', false);
+        this.set('nameComplete', false);
+        this.set('name', '');
         return;
       }
       this.get('store').findRecord(this.get('parent'), this.get('parent_id'))
@@ -30,7 +31,8 @@ export default Component.extend({
             });
           newCollection.set(this.get('parent'), parent);
           newCollection.save();
-          this.set('scriptComplete', false);
+          this.set('nameComplete', false);
+          this.set('name', '');
         });
     },
     prefixComplete(prefix) {
