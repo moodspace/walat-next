@@ -2,7 +2,7 @@
   <ul class="nav nav-tabs border-0">
     <li class="nav-item">
       <a class="nav-link active show" data-toggle="tab" href="#edit">
-        <i class="mdi mdi-pencil"></i> New {{type}}
+        <i class="mdi mdi-pencil"></i> New {{if (eq type 'klass') 'class' type}}
       </a>
     </li>
   </ul>
@@ -11,7 +11,7 @@
       <div class="m-3">
         <div class="form-row">
           <div class="col">
-            <input type="text" class="form-control" placeholder="Type name here" name="script-line" value="{{script}}" oninput={{action 'inputName' value="target.value"}}>
+            <input type="text" class="form-control" placeholder="Type name here" name="script-line" value="{{name}}" oninput={{action 'inputName' value="target.value"}}>
           </div>
           <div class="col-auto d-flex justify-content-center">
             {{#if scriptComplete}}
@@ -26,13 +26,32 @@
           </div>
         </div>
         <div class="m-3">
-          <a class="text-success">Exercise</p>
-
+          <div class="btn-group" role="group">
+            <a class="btn btn-link text-info disabled">
+              <i class="mdi mdi-decagram-outline"></i>
+            </a>
+            {{#if (eq type 'klass')}}
+              <a {{action 'prefixComplete' 'Class'}} class="btn btn-link text-info">Class</a>
+              <a {{action 'prefixComplete' 'Course'}} class="btn btn-link text-info">Course</a>
+            {{/if}}
+            {{#if (eq type 'lesson')}}
+              <a {{action 'prefixComplete' 'Lesson'}} class="btn btn-link text-info">Lesson</a>
+              <a {{action 'prefixComplete' 'Story'}} class="btn btn-link text-info">Story</a>
+              <a {{action 'prefixComplete' 'Chapter'}} class="btn btn-link text-info">Chapter</a>
+            {{/if}}
+            {{#if (eq type 'exercise')}}
+              <a {{action 'prefixComplete' 'Exercise'}} class="btn btn-link text-info">Exercise</a>
+              <a {{action 'prefixComplete' 'Scene'}} class="btn btn-link text-info">Scene</a>
+              <a {{action 'prefixComplete' 'Dialog'}} class="btn btn-link text-info">Dialog</a>
+            {{/if}}
+            {{#if (eq type 'page')}}
+              <a {{action 'prefixComplete' 'Page'}} class="btn btn-link text-info">Page</a>
+              <a {{action 'prefixComplete' 'Dot'}} class="btn btn-link text-info">Dot</a>
+              <a {{action 'prefixComplete' 'Slide'}} class="btn btn-link text-info">Slide</a>
+            {{/if}}
+          </div>
           <button type="button" class="btn btn-dark btn-md">
             <i class="mdi mdi-code-tags"></i> Templates</button>
-          <button type="button" class="btn btn-dark btn-md">
-            <i class="mdi mdi-history"></i> History
-          </button>
         </div>
       </div>
     </div>

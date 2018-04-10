@@ -24,6 +24,7 @@ const Action = sequelize.define('action', {
 });
 
 const Page = sequelize.define('page', {
+  name: Sequelize.STRING,
   uuid: Sequelize.STRING,
 });
 
@@ -37,12 +38,19 @@ const Lesson = sequelize.define('lesson', {
   uuid: Sequelize.STRING,
 });
 
+const Klass = sequelize.define('klass', {
+  name: Sequelize.STRING,
+  uuid: Sequelize.STRING,
+});
+
 Page.hasMany(Action, {foreignKey: 'page', targetKey: 'id'});
 Exercise.hasMany(Page, {foreignKey: 'exercise', targetKey: 'id'});
 Lesson.hasMany(Exercise, {foreignKey: 'lesson', targetKey: 'id'});
+Klass.hasMany(Lesson, {foreignKey: 'klass', targetKey: 'id'});
 
 exports.DataSource = sequelize;
 exports.Action = Action;
 exports.Page = Page;
 exports.Exercise = Exercise;
 exports.Lesson = Lesson;
+exports.Klass = Klass;

@@ -8,6 +8,7 @@ const {
   Page,
   Exercise,
   Lesson,
+  Klass,
 } = Model;
 
 DataSource.sync();
@@ -243,6 +244,117 @@ exports.exercisesIdPATCH = function(id, body) {
 exports.exercisesPOST = function(body) {
   return new Promise(function(resolve, reject) {
     Exercise.create(body).then((d) => {
+      resolve(d);
+    }).catch((reason) => {
+      reject(reason);
+    })
+  });
+}
+
+
+/**
+ * Returns information about klasses.
+ *
+ * include String Used to include nested records (optional)
+ * returns List
+ **/
+exports.klassesGET = function(include) {
+  return new Promise(function(resolve, reject) {
+    Klass.findAll({
+      order: [
+        ['createdAt'],
+      ],
+    }).then((list) => {
+      if (include) {
+        getIncludes('Klass', list, resolve, reject);
+      } else {
+        resolve(list);
+      }
+    }).catch((reason) => {
+      reject(reason);
+    });
+  });
+}
+
+
+/**
+ * Deletes a klass.
+ *
+ * id String ID of klass
+ * returns String
+ **/
+exports.klassesIdDELETE = function(id) {
+  return new Promise(function(resolve, reject) {
+    Klass.destroy({
+      where: {
+        id
+      },
+    }).then((d) => {
+      resolve(d);
+    }).catch((reason) => {
+      reject(reason);
+    });
+  });
+}
+
+
+/**
+ * Returns information about the klass of a specified ID.
+ *
+ * id String ID of klass
+ * include String Used to include nested records (optional)
+ * returns Klass
+ **/
+exports.klassesIdGET = function(id, include) {
+  return new Promise(function(resolve, reject) {
+    Klass.find({
+      where: {
+        id,
+      },
+    }).then((d) => {
+      if (include) {
+        getIncludes('Klass', d, resolve, reject);
+      } else {
+        resolve(d);
+      }
+    }).catch((reason) => {
+      reject(reason);
+    });
+  });
+}
+
+
+/**
+ * Edits a klass.
+ *
+ * id String ID of klass
+ * body Klass Klass content to be updated
+ * returns String
+ **/
+exports.klassesIdPATCH = function(id, body) {
+  return new Promise(function(resolve, reject) {
+    Klass.update(body, {
+      where: {
+        id,
+      },
+    }).then(() => {
+      resolve({ id });
+    }).catch((reason) => {
+      reject(reason);
+    });
+  });
+}
+
+
+/**
+ * Adds a new klass.
+ *
+ * body NKlass Klass with default ID to be added
+ * returns Integer
+ **/
+exports.klassesPOST = function(body) {
+  return new Promise(function(resolve, reject) {
+    Klass.create(body).then((d) => {
       resolve(d);
     }).catch((reason) => {
       reject(reason);
@@ -500,6 +612,19 @@ const getIncludes = (parentType, parent, resolve, reject) => {
     parent.map((p) => getIncludes(parentType, p, cb, reject));
   } else {
     switch (parentType) {
+      case 'Klass':
+        Lesson.findAll({
+          where: { klass: parent.id },
+          order: [
+            ['createdAt'],
+          ],
+        }).then((nestedList) => {
+          parent.dataValues.lessons = nestedList;
+          resolve(parent);
+        }).catch((reason) => {
+          reject(reason);
+        });
+        break;
       case 'Lesson':
         Exercise.findAll({
           where: { lesson: parent.id },

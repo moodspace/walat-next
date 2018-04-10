@@ -1,4 +1,4 @@
-{{global-navbar path='editor'}}
+{{global-navbar}}
 <div>
   <div class="row no-gutters">
     <div class="col col-md-9 p-3">
@@ -22,7 +22,7 @@
       {{/each}}
     </div>
     <div class="col col-md-3 p-3">
-      {{global-breadcrumb lesson=model.page.exercise.lesson exercise=model.page.exercise page=model.page editable=true}}
+      {{sidebar-overview klass=model.klass lesson=model.lesson exercise=model.exercise page=model.page editable=true}}
     </div>
   </div>
 </div>

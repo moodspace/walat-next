@@ -1,4 +1,4 @@
-{{global-navbar path='editor'}}
+{{global-navbar}}
 <div>
   <div class="row no-gutters">
     <div class="col col-md-9 p-3">
@@ -10,7 +10,7 @@
       </div>
       {{#each model.pages as |page index|}}
         {{#if (eq page.exercise.id model.exercise.id) }}
-          {{#link-to 'page' model.exercise.lesson.id model.exercise.id page.id}}
+          {{#link-to 'page' model.klass.id model.lesson.id model.exercise.id page.id}}
             <div class="d-flex align-items-center mb-3">
               <div class="d-flex justify-content-center noselect" style="width: 4em;">
                 <span class="btn-light mr-3">
@@ -34,7 +34,7 @@
       {{/each}}
     </div>
     <div class="col col-md-3 p-3">
-      {{global-breadcrumb lesson=model.exercise.lesson exercise=model.exercise editable=true}}
+      {{sidebar-overview klass=model.klass lesson=model.lesson exercise=model.exercise editable=true}}
     </div>
   </div>
 </div>

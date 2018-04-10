@@ -7,15 +7,15 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('editor', { path: '/editor' });
-  this.route('lesson', { path: '/editor/:lesson_id' });
+  this.route('home', { path: '/' });
+  this.route('klass', { path: '/editor/:klass_id' });
+  this.route('lesson', { path: '/editor/:klass_id/:lesson_id' });
   this.route('exercise', {
-    path: '/editor/:lesson_id/:exercise_id'
+    path: '/editor/:klass_id/:lesson_id/:exercise_id'
   });
   this.route('page', {
-    path: '/editor/:lesson_id/:exercise_id/:page_id'
+    path: '/editor/:klass_id/:lesson_id/:exercise_id/:page_id'
   });
-  this.route('lessons');
   this.route('assets');
   this.route('settings');
 });

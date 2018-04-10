@@ -128,6 +128,63 @@ module.exports.exercisesPOST = function exercisesPOST(req, res, next) {
     });
 };
 
+module.exports.klassesGET = function klassesGET(req, res, next) {
+  var include = req.swagger.params['include'].value;
+  Backend.klassesGET(include)
+    .then(function(response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function(response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.klassesIdDELETE = function klassesIdDELETE(req, res, next) {
+  var id = req.swagger.params['id'].value;
+  Backend.klassesIdDELETE(id)
+    .then(function(response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function(response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.klassesIdGET = function klassesIdGET(req, res, next) {
+  var id = req.swagger.params['id'].value;
+  var include = req.swagger.params['include'].value;
+  Backend.klassesIdGET(id, include)
+    .then(function(response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function(response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.klassesIdPATCH = function klassesIdPATCH(req, res, next) {
+  var id = req.swagger.params['id'].value;
+  var body = req.swagger.params['body'].value;
+  Backend.klassesIdPATCH(id, body)
+    .then(function(response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function(response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.klassesPOST = function klassesPOST(req, res, next) {
+  var body = req.swagger.params['body'].value;
+  Backend.klassesPOST(body)
+    .then(function(response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function(response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.lessonsGET = function lessonsGET(req, res, next) {
   var include = req.swagger.params['include'].value;
   Backend.lessonsGET(include)

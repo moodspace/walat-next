@@ -1,16 +1,16 @@
-{{global-navbar path='lessons'}}
+{{global-navbar}}
 <div>
   <div class="row no-gutters">
     <div class="col col-md-9 p-3">
       <div class="d-flex align-items-center mb-5">
         <div style="width: 4em;"></div>
         <div class="w-100">
-          {{simple-quick-post type='lesson'}}
+          {{simple-quick-post type='lesson' parent='klass' parent_id=model.klass.id}}
         </div>
       </div>
-      {{#each model.exercises as |exercise|}}
-        {{#if (eq exercise.lesson.id model.lesson.id) }}
-          {{#link-to 'exercise' model.lesson.id exercise.id}}
+      {{#each model.lessons as |lesson|}}
+        {{#if (eq lesson.klass.id model.klass.id) }}
+          {{#link-to 'lesson' model.klass.id lesson.id}}
             <div class="d-flex align-items-center mb-3">
               <div class="d-flex justify-content-center noselect" style="width: 4em;">
                 <span class="btn-light mr-3">
@@ -21,7 +21,7 @@
                 <div class="card">
                   <div class="card-body pt-0">
                     <div class="d-flex justify-content-between">
-                      <div class="h5 card-title mt-3">{{exercise.name}}</div>
+                      <div class="h5 card-title mt-3">{{lesson.name}}</div>
                       <div class="card-text">
                       </div>
                     </div>
@@ -34,7 +34,7 @@
       {{/each}}
     </div>
     <div class="col col-md-3 p-3">
-      {{global-breadcrumb lesson=model.lesson editable=true}}
+      {{sidebar-overview klass=model.klass editable=true}}
     </div>
   </div>
 </div>

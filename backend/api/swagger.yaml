@@ -1,632 +1,835 @@
 ---
-basePath:                          "/v2"
+swagger: "2.0"
+info:
+  description: "WALAT-NEXT"
+  version: "2.0.0"
+  title: "walat"
+basePath: "/v2"
+schemes:
+- "http"
 consumes:
-- application/json
-- application/vnd.api+json
+- "application/json"
+- "application/vnd.api+json"
+produces:
+- "application/json"
+- "application/vnd.api+json"
+paths:
+  /actions:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about actions at a given page."
+      operationId: "actionsGET"
+      parameters: []
+      responses:
+        200:
+          description: "An array of actions"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Action"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    post:
+      tags:
+      - "Backend"
+      description: "Adds a new action to a given page."
+      operationId: "actionsPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Action with default ID to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/NAction"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /actions/{id}:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about the action of a specified ID."
+      operationId: "actionsIdGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of action"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "A action"
+          schema:
+            $ref: "#/definitions/Action"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    delete:
+      tags:
+      - "Backend"
+      description: "Deletes a action."
+      operationId: "actionsIdDELETE"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of action"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+    patch:
+      tags:
+      - "Backend"
+      description: "Edits a action."
+      operationId: "actionsIdPATCH"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of action"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Action content to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Action"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /exercises:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about exercises at a given lesson."
+      operationId: "exercisesGET"
+      parameters:
+      - name: "include"
+        in: "query"
+        description: "Used to include nested records"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "An array of exercises"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Exercise"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    post:
+      tags:
+      - "Backend"
+      description: "Adds a new exercise to a given lesson."
+      operationId: "exercisesPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Exercise with default ID to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/NExercise"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "integer"
+            format: "int32"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /exercises/{id}:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about the exercise of a specified ID."
+      operationId: "exercisesIdGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of exercise"
+        required: true
+        type: "string"
+      - name: "include"
+        in: "query"
+        description: "Used to include nested records"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "An exercise"
+          schema:
+            $ref: "#/definitions/Exercise"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    delete:
+      tags:
+      - "Backend"
+      description: "Deletes an exercise."
+      operationId: "exercisesIdDELETE"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of exercise"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+    patch:
+      tags:
+      - "Backend"
+      description: "Edits an exercise."
+      operationId: "exercisesIdPATCH"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of exercise"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Exercise content to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Exercise"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /exercises/{id}/reorder:
+    post:
+      tags:
+      - "Backend"
+      description: "Reorders an exercise."
+      operationId: "exercisesIdReorderPOST"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of exercise"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "List of ordered page IDs"
+        required: true
+        schema:
+          type: "array"
+          items:
+            type: "integer"
+            format: "int32"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /klasses:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about klasses."
+      operationId: "klassesGET"
+      parameters:
+      - name: "include"
+        in: "query"
+        description: "Used to include nested records"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "An array of klasses"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Klass"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    post:
+      tags:
+      - "Backend"
+      description: "Adds a new klass."
+      operationId: "klassesPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Klass with default ID to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/NKlass"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "integer"
+            format: "int32"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /klasses/{id}:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about the klass of a specified ID."
+      operationId: "klassesIdGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of klass"
+        required: true
+        type: "string"
+      - name: "include"
+        in: "query"
+        description: "Used to include nested records"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "A klass"
+          schema:
+            $ref: "#/definitions/Klass"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    delete:
+      tags:
+      - "Backend"
+      description: "Deletes a klass."
+      operationId: "klassesIdDELETE"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of klass"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+    patch:
+      tags:
+      - "Backend"
+      description: "Edits a klass."
+      operationId: "klassesIdPATCH"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of klass"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Klass content to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Klass"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /lessons:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about lessons."
+      operationId: "lessonsGET"
+      parameters:
+      - name: "include"
+        in: "query"
+        description: "Used to include nested records"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "An array of lessons"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Lesson"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    post:
+      tags:
+      - "Backend"
+      description: "Adds a new lesson."
+      operationId: "lessonsPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Lesson with default ID to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/NLesson"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "integer"
+            format: "int32"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /lessons/{id}:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about the lesson of a specified ID."
+      operationId: "lessonsIdGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of lesson"
+        required: true
+        type: "string"
+      - name: "include"
+        in: "query"
+        description: "Used to include nested records"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "A lesson"
+          schema:
+            $ref: "#/definitions/Lesson"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    delete:
+      tags:
+      - "Backend"
+      description: "Deletes a lesson."
+      operationId: "lessonsIdDELETE"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of lesson"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+    patch:
+      tags:
+      - "Backend"
+      description: "Edits a lesson."
+      operationId: "lessonsIdPATCH"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of lesson"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Lesson content to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Lesson"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /lessons/{id}/reorder:
+    post:
+      tags:
+      - "Backend"
+      description: "Reorders a lesson."
+      operationId: "lessonsIdReorderPOST"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of lesson"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "List of ordered exercise IDs"
+        required: true
+        schema:
+          type: "array"
+          items:
+            type: "integer"
+            format: "int32"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /pages:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about pages at a given exercise."
+      operationId: "pagesGET"
+      parameters:
+      - name: "include"
+        in: "query"
+        description: "Used to include nested records"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "An array of pages"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Page"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    post:
+      tags:
+      - "Backend"
+      description: "Adds a new page to a given exercise."
+      operationId: "pagesPOST"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Page with default ID to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/NPage"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+  /pages/{id}:
+    get:
+      tags:
+      - "Backend"
+      description: "Returns information about the page of a specified ID."
+      operationId: "pagesIdGET"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of page"
+        required: true
+        type: "string"
+      - name: "include"
+        in: "query"
+        description: "Used to include nested records"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "A page"
+          schema:
+            $ref: "#/definitions/Page"
+        default:
+          description: "Unexpected error"
+          schema:
+            $ref: "#/definitions/Error"
+      x-swagger-router-controller: "Backend"
+    delete:
+      tags:
+      - "Backend"
+      description: "Deletes a page."
+      operationId: "pagesIdDELETE"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of page"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
+    patch:
+      tags:
+      - "Backend"
+      description: "Edits a page."
+      operationId: "pagesIdPATCH"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "ID of page"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Page content to be updated"
+        required: true
+        schema:
+          $ref: "#/definitions/Page"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "string"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "Backend"
 definitions:
   Action:
+    type: "object"
     properties:
       id:
-        description:               ID of action
-        type:                      string
+        type: "string"
+        description: "ID of action"
       page:
-        description:               Parent page
-        type:                      string
+        type: "string"
+        description: "Parent page"
       type:
-        description:               Type of action
-        type:                      string
+        type: "string"
+        description: "Type of action"
       uuid:
-        description:               UUID of action
-        type:                      string
+        type: "string"
+        description: "UUID of action"
       value:
-        description:               Value of action
-        type:                      object
-    type:                          object
+        type: "object"
+        description: "Value of action"
+        properties: {}
+    example:
+      id: "id"
+      page: "page"
+      type: "type"
+      uuid: "uuid"
+      value: "{}"
   Error:
+    type: "object"
     properties:
       code:
-        format:                    int32
-        type:                      integer
+        type: "integer"
+        format: "int32"
       fields:
-        type:                      string
+        type: "string"
       message:
-        type:                      string
-    type:                          object
+        type: "string"
   Exercise:
+    type: "object"
     properties:
       id:
-        description:               ID of exercise
-        type:                      string
+        type: "string"
+        description: "ID of exercise"
       lesson:
-        description:               Parent lesson
-        type:                      string
+        type: "string"
+        description: "Parent lesson"
       name:
-        description:               Name of exercise
-        type:                      string
+        type: "string"
+        description: "Name of exercise"
       uuid:
-        description:               UUID of exercise
-        type:                      string
-    type:                          object
-  Lesson:
+        type: "string"
+        description: "UUID of exercise"
+    example:
+      lesson: "lesson"
+      name: "name"
+      id: "id"
+      uuid: "uuid"
+  Klass:
+    type: "object"
     properties:
       id:
-        description:               ID of lesson
-        type:                      string
+        type: "string"
+        description: "ID of class"
       name:
-        description:               Name of lesson
-        type:                      string
+        type: "string"
+        description: "Name of class"
       uuid:
-        description:               UUID of lesson
-        type:                      string
-    type:                          object
+        type: "string"
+        description: "UUID of class"
+    example:
+      name: "name"
+      id: "id"
+      uuid: "uuid"
+  Lesson:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "ID of lesson"
+      klass:
+        type: "string"
+        description: "Parent class"
+      name:
+        type: "string"
+        description: "Name of lesson"
+      uuid:
+        type: "string"
+        description: "UUID of lesson"
+    example:
+      klass: "klass"
+      name: "name"
+      id: "id"
+      uuid: "uuid"
   NAction:
+    type: "object"
     properties:
       page:
-        description:               Parent page
-        type:                      string
+        type: "string"
+        description: "Parent page"
       type:
-        description:               Type of action
-        type:                      string
+        type: "string"
+        description: "Type of action"
       uuid:
-        description:               UUID of action
-        type:                      string
+        type: "string"
+        description: "UUID of action"
       value:
-        description:               Value of action
-        type:                      object
-    type:                          object
+        type: "object"
+        description: "Value of action"
+        properties: {}
+    example:
+      page: "page"
+      type: "type"
+      uuid: "uuid"
+      value: "{}"
   NExercise:
+    type: "object"
     properties:
       lesson:
-        description:               Parent lesson
-        type:                      string
+        type: "string"
+        description: "Parent lesson"
       name:
-        description:               Name of exercise
-        type:                      string
+        type: "string"
+        description: "Name of exercise"
       uuid:
-        description:               UUID of exercise
-        type:                      string
-    type:                          object
+        type: "string"
+        description: "UUID of exercise"
+    example:
+      lesson: "lesson"
+      name: "name"
+      uuid: "uuid"
+  NKlass:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "Name of class"
+      uuid:
+        type: "string"
+        description: "UUID of class"
+    example:
+      name: "name"
+      uuid: "uuid"
   NLesson:
+    type: "object"
     properties:
+      klass:
+        type: "string"
+        description: "Parent class"
       name:
-        description:               Name of lesson
-        type:                      string
+        type: "string"
+        description: "Name of lesson"
       uuid:
-        description:               UUID of lesson
-        type:                      string
-    type:                          object
+        type: "string"
+        description: "UUID of lesson"
+    example:
+      klass: "klass"
+      name: "name"
+      uuid: "uuid"
   NPage:
+    type: "object"
     properties:
       exercise:
-        description:               Parent exercise
-        type:                      string
+        type: "string"
+        description: "Parent exercise"
+      name:
+        type: "string"
+        description: "Name of page"
       uuid:
-        description:               UUID of page
-        type:                      string
-    type:                          object
+        type: "string"
+        description: "UUID of page"
+    example:
+      name: "name"
+      exercise: "exercise"
+      uuid: "uuid"
   Page:
+    type: "object"
     properties:
       exercise:
-        description:               Parent exercise
-        type:                      string
+        type: "string"
+        description: "Parent exercise"
       id:
-        description:               ID of page
-        type:                      string
+        type: "string"
+        description: "ID of page"
+      name:
+        type: "string"
+        description: "Name of page"
       uuid:
-        description:               UUID of page
-        type:                      string
-    type:                          object
-info:
-  description:                     WALAT-NEXT
-  title:                           walat
-  version:                         2.0.0
-paths:
-  "/actions":
-    get:
-      description:                 Returns information about actions at a given page.
-      operationId:                 actionsGET
-      responses:
-        '200':
-          description:             An array of actions
-          schema:
-            items:
-              "$ref":              "#/definitions/Action"
-            type:                  array
-        default:
-          description:             Unexpected error
-          schema:
-            "$ref":                "#/definitions/Error"
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    post:
-      description:                 Adds a new action to a given page.
-      operationId:                 actionsPOST
-      parameters:
-      - description:               Action with default ID to be added
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          "$ref":                  "#/definitions/NAction"
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/actions/{id}":
-    delete:
-      description:                 Deletes a action.
-      operationId:                 actionsIdDELETE
-      parameters:
-      - description:               ID of action
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    get:
-      description:                 Returns information about the action of a specified ID.
-      operationId:                 actionsIdGET
-      parameters:
-      - description:               ID of action
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      responses:
-        '200':
-          description:             A action
-          schema:
-            "$ref":                "#/definitions/Action"
-        default:
-          description:             Unexpected error
-          schema:
-            "$ref":                "#/definitions/Error"
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    patch:
-      description:                 Edits a action.
-      operationId:                 actionsIdPATCH
-      parameters:
-      - description:               ID of action
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               Action content to be updated
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          "$ref":                  "#/definitions/Action"
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/exercises":
-    get:
-      description:                 Returns information about exercises at a given lesson.
-      operationId:                 exercisesGET
-      parameters:
-      - description:               Used to include nested records
-        in:                        query
-        name:                      include
-        type:                      string
-      responses:
-        '200':
-          description:             An array of exercises
-          schema:
-            items:
-              "$ref":              "#/definitions/Exercise"
-            type:                  array
-        default:
-          description:             Unexpected error
-          schema:
-            "$ref":                "#/definitions/Error"
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    post:
-      description:                 Adds a new exercise to a given lesson.
-      operationId:                 exercisesPOST
-      parameters:
-      - description:               Exercise with default ID to be added
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          "$ref":                  "#/definitions/NExercise"
-      responses:
-        '200':
-          description:             OK
-          schema:
-            format:                int32
-            type:                  integer
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/exercises/{id}":
-    delete:
-      description:                 Deletes an exercise.
-      operationId:                 exercisesIdDELETE
-      parameters:
-      - description:               ID of exercise
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    get:
-      description:                 Returns information about the exercise of a specified ID.
-      operationId:                 exercisesIdGET
-      parameters:
-      - description:               ID of exercise
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               Used to include nested records
-        in:                        query
-        name:                      include
-        type:                      string
-      responses:
-        '200':
-          description:             An exercise
-          schema:
-            "$ref":                "#/definitions/Exercise"
-        default:
-          description:             Unexpected error
-          schema:
-            "$ref":                "#/definitions/Error"
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    patch:
-      description:                 Edits an exercise.
-      operationId:                 exercisesIdPATCH
-      parameters:
-      - description:               ID of exercise
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               Exercise content to be updated
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          "$ref":                  "#/definitions/Exercise"
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/exercises/{id}/reorder":
-    post:
-      description:                 Reorders an exercise.
-      operationId:                 exercisesIdReorderPOST
-      parameters:
-      - description:               ID of exercise
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               List of ordered page IDs
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          items:
-            format:                int32
-            type:                  integer
-          type:                    array
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/lessons":
-    get:
-      description:                 Returns information about lessons.
-      operationId:                 lessonsGET
-      parameters:
-      - description:               Used to include nested records
-        in:                        query
-        name:                      include
-        type:                      string
-      responses:
-        '200':
-          description:             An array of lessons
-          schema:
-            items:
-              "$ref":              "#/definitions/Lesson"
-            type:                  array
-        default:
-          description:             Unexpected error
-          schema:
-            "$ref":                "#/definitions/Error"
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    post:
-      description:                 Adds a new lesson.
-      operationId:                 lessonsPOST
-      parameters:
-      - description:               Lesson with default ID to be added
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          "$ref":                  "#/definitions/NLesson"
-      responses:
-        '200':
-          description:             OK
-          schema:
-            format:                int32
-            type:                  integer
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/lessons/{id}":
-    delete:
-      description:                 Deletes a lesson.
-      operationId:                 lessonsIdDELETE
-      parameters:
-      - description:               ID of lesson
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    get:
-      description:                 Returns information about the lesson of a specified ID.
-      operationId:                 lessonsIdGET
-      parameters:
-      - description:               ID of lesson
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               Used to include nested records
-        in:                        query
-        name:                      include
-        type:                      string
-      responses:
-        '200':
-          description:             A lesson
-          schema:
-            "$ref":                "#/definitions/Lesson"
-        default:
-          description:             Unexpected error
-          schema:
-            "$ref":                "#/definitions/Error"
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    patch:
-      description:                 Edits a lesson.
-      operationId:                 lessonsIdPATCH
-      parameters:
-      - description:               ID of lesson
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               Lesson content to be updated
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          "$ref":                  "#/definitions/Lesson"
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/lessons/{id}/reorder":
-    post:
-      description:                 Reorders a lesson.
-      operationId:                 lessonsIdReorderPOST
-      parameters:
-      - description:               ID of lesson
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               List of ordered exercise IDs
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          items:
-            format:                int32
-            type:                  integer
-          type:                    array
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/pages":
-    get:
-      description:                 Returns information about pages at a given exercise.
-      operationId:                 pagesGET
-      parameters:
-      - description:               Used to include nested records
-        in:                        query
-        name:                      include
-        type:                      string
-      responses:
-        '200':
-          description:             An array of pages
-          schema:
-            items:
-              "$ref":              "#/definitions/Page"
-            type:                  array
-        default:
-          description:             Unexpected error
-          schema:
-            "$ref":                "#/definitions/Error"
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    post:
-      description:                 Adds a new page to a given exercise.
-      operationId:                 pagesPOST
-      parameters:
-      - description:               Page with default ID to be added
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          "$ref":                  "#/definitions/NPage"
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-  "/pages/{id}":
-    delete:
-      description:                 Deletes a page.
-      operationId:                 pagesIdDELETE
-      parameters:
-      - description:               ID of page
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    get:
-      description:                 Returns information about the page of a specified ID.
-      operationId:                 pagesIdGET
-      parameters:
-      - description:               ID of page
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               Used to include nested records
-        in:                        query
-        name:                      include
-        type:                      string
-      responses:
-        '200':
-          description:             A page
-          schema:
-            "$ref":                "#/definitions/Page"
-        default:
-          description:             Unexpected error
-          schema:
-            "$ref":                "#/definitions/Error"
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-    patch:
-      description:                 Edits a page.
-      operationId:                 pagesIdPATCH
-      parameters:
-      - description:               ID of page
-        in:                        path
-        name:                      id
-        required:                  true
-        type:                      string
-      - description:               Page content to be updated
-        in:                        body
-        name:                      body
-        required:                  true
-        schema:
-          "$ref":                  "#/definitions/Page"
-      responses:
-        '200':
-          description:             OK
-          schema:
-            type:                  string
-        '405':
-          description:             Invalid input
-      tags:
-      - Backend
-      x-swagger-router-controller: Backend
-produces:
-- application/json
-- application/vnd.api+json
-schemes:
-- http
-swagger:                           '2.0'
+        type: "string"
+        description: "UUID of page"
+    example:
+      name: "name"
+      exercise: "exercise"
+      id: "id"
+      uuid: "uuid"

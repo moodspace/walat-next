@@ -3,6 +3,5 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   uuid: DS.attr('string'),
   name: DS.attr('string'),
-  lesson: DS.belongsTo('klass'),
-  exercises: DS.hasMany('exercise')
+  lessons: DS.hasMany('lesson')
 });

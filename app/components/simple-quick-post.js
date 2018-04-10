@@ -12,6 +12,15 @@ export default Component.extend({
       }
     },
     addCollection() {
+      if (this.get('type') === 'klass') {
+        this.get('store').createRecord(
+          this.get('type'), {
+            uuid: v4(),
+            name: this.get('name')
+          }).save();
+        this.set('scriptComplete', false);
+        return;
+      }
       this.get('store').findRecord(this.get('parent'), this.get('parent_id'))
         .then((parent) => {
           const newCollection = this.get('store').createRecord(
@@ -23,6 +32,10 @@ export default Component.extend({
           newCollection.save();
           this.set('scriptComplete', false);
         });
+    },
+    prefixComplete(prefix) {
+      this.set('name', prefix + ' ');
+      Ember.$("#edit input").focus();
     }
   }
 });
