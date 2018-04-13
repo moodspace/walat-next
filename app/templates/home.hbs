@@ -9,14 +9,19 @@
         </div>
       </div>
       {{#each model.klasses as |klass|}}
-        {{#link-to 'klass' klass.id}}
-          <div class="d-flex align-items-center mb-3">
-            <div class="d-flex justify-content-center noselect" style="width: 4em;">
-              <span class="btn-light mr-3">
-                <i class="mdi mdi-dots-vertical"></i>
-              </span>
-            </div>
-            <div class="w-100">
+        <div class="d-flex align-items-center mb-3">
+          <div class="d-flex justify-content-center" {{action "toggleSelect" klass.id}} style="width: 2em;">
+            <span class="btn text-dark mr-3">
+              <i class="mdi mdi-checkbox-{{if (array-contains selected.klasses klass.id) 'marked' 'blank'}}-outline"></i>
+            </span>
+          </div>
+          <div class="d-flex justify-content-center noselect" style="width: 2em;">
+            <span class="btn-light mr-3">
+              <i class="mdi mdi-dots-vertical"></i>
+            </span>
+          </div>
+          <div class="w-100">
+            {{#link-to 'klass' klass.id}}
               <div class="card">
                 <div class="card-body pt-0">
                   <div class="d-flex justify-content-between">
@@ -26,13 +31,13 @@
                   </div>
                 </div>
               </div>
-            </div>
+            {{/link-to}}
           </div>
-        {{/link-to}}
+        </div>
       {{/each}}
     </div>
     <div class="col col-md-3 p-3">
-      
+      {{sidebar-template-add hasSelected=hasSelected type='klasses'}}
     </div>
   </div>
 </div>

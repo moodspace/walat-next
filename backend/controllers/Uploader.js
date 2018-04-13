@@ -4,15 +4,11 @@ const path = require('path');
 const rstr = require('randomstring');
 
 let tempDir = path.join(__dirname, '..', 'tmp');
-
 if (!fs.existsSync(tempDir)) {
   fs.mkdirSync(tempDir);
 }
-
 tempDir = fs.mkdtempSync(path.join(tempDir, 'walat-'));
-
 const assetDir = path.join(__dirname, '..', 'uploads');
-
 if (!fs.existsSync(assetDir)) {
   fs.mkdirSync(assetDir);
 }

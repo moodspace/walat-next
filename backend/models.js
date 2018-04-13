@@ -43,6 +43,14 @@ const Klass = sequelize.define('klass', {
   uuid: Sequelize.STRING,
 });
 
+const Template = sequelize.define('template', {
+  name: Sequelize.STRING,
+  uuid: Sequelize.STRING,
+  type: Sequelize.STRING,
+  collection: Sequelize.STRING,
+});
+
+
 Page.hasMany(Action, {foreignKey: 'page', targetKey: 'id'});
 Exercise.hasMany(Page, {foreignKey: 'exercise', targetKey: 'id'});
 Lesson.hasMany(Exercise, {foreignKey: 'lesson', targetKey: 'id'});
@@ -54,3 +62,4 @@ exports.Page = Page;
 exports.Exercise = Exercise;
 exports.Lesson = Lesson;
 exports.Klass = Klass;
+exports.Template = Template;

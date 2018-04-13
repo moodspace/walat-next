@@ -28,6 +28,9 @@
             <option value="nextSound" selected={{eq type "nextSound"}}>Next sound</option>
           </select>
         </div>
+        <div class="col">
+          <input class="form-control form-control-sm" placeholder="Ratio" value="{{ratio}}" oninput= {{action "setValueRatio" value="target.value"}}>
+        </div>
       {{/if}}
     </div>
   </div>

@@ -13,7 +13,12 @@
           {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=action isSortable=true sortingScope="sortingGroup"}}
             {{#if (eq action.page.id model.page.id) }}
               <div class="d-flex align-items-center mb-3">
-                <div class="d-flex justify-content-center noselect" style="width: 4em;">
+                <div class="d-flex justify-content-center" {{action "toggleSelect" action.id}} style="width: 2em;">
+                  <span class="btn text-dark mr-3">
+                    <i class="mdi mdi-checkbox-{{if (array-contains selected.actions action.id) 'marked' 'blank'}}-outline"></i>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-center noselect" style="width: 2em;">
                   <span class="btn-light mr-3">
                     <i class="mdi mdi-dots-vertical"></i>
                   </span>
@@ -28,6 +33,7 @@
       {{/sortable-objects}}
     </div>
     <div class="col col-md-3 p-3">
+      {{sidebar-template-add hasSelected=hasSelected type='actions'}}
       {{sidebar-overview klass=model.klass lesson=model.lesson exercise=model.exercise page=model.page editable=true}}
     </div>
   </div>

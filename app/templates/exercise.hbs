@@ -12,14 +12,19 @@
         {{#each model.pages as |page|}}
           {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=page isSortable=true sortingScope="sortingGroup"}}
             {{#if (eq page.exercise.id model.exercise.id) }}
-              {{#link-to 'page' model.klass.id model.lesson.id model.exercise.id page.id}}
-                <div class="d-flex align-items-center mb-3">
-                  <div class="d-flex justify-content-center noselect" style="width: 4em;">
-                    <span class="btn-light mr-3">
-                      <i class="mdi mdi-dots-vertical"></i>
-                    </span>
-                  </div>
-                  <div class="w-100">
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-flex justify-content-center" {{action "toggleSelect" page.id}} style="width: 2em;">
+                  <span class="btn text-dark mr-3">
+                    <i class="mdi mdi-checkbox-{{if (array-contains selected.pages page.id) 'marked' 'blank'}}-outline"></i>
+                  </span>
+                </div>
+                <div class="d-flex justify-content-center noselect" style="width: 2em;">
+                  <span class="btn-light mr-3">
+                    <i class="mdi mdi-dots-vertical"></i>
+                  </span>
+                </div>
+                <div class="w-100">
+                  {{#link-to 'page' model.klass.id model.lesson.id model.exercise.id page.id}}
                     <div class="card">
                       <div class="card-body pt-0">
                         <div class="d-flex justify-content-between">
@@ -29,15 +34,16 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  {{/link-to}}
                 </div>
-              {{/link-to}}
+              </div>
             {{/if}}
           {{/draggable-object}}
         {{/each}}
       {{/sortable-objects}}
     </div>
     <div class="col col-md-3 p-3">
+      {{sidebar-template-add hasSelected=hasSelected type='pages'}}
       {{sidebar-overview klass=model.klass lesson=model.lesson exercise=model.exercise editable=true}}
     </div>
   </div>

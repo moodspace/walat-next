@@ -45,7 +45,12 @@
       {{else if (equal action.type 'play')}}
         {{actions/edit-play updater=updater sound=action.value.sound soundLoaded=true}}
       {{else if (equal action.type 'record')}}
-        {{actions/edit-record updater=updater type=action.value.type length=action.value.length}}
+        {{#if (equal action.value.type "fixed") }}
+          {{actions/edit-record updater=updater type=action.value.type length=action.value.length}}
+        {{/if}}
+        {{#if (equal action.value.type "variable") }}
+          {{actions/edit-record updater=updater type=action.value.type length=action.value.length ratio=action.value.ratio}}
+        {{/if}}
       {{else}}
         {{actions/edit-noop}}
       {{/if}}
