@@ -1,0 +1,40 @@
+<div class="card" onmouseEnter={{action 'showButtons'}} onmouseLeave={{action 'showButtons'}}>
+  <div class="card-body pt-0">
+    <div class="d-flex justify-content-between">
+      {{#if (eq type 'klass')}}
+        {{#link-to type id class='w-100'}}
+          <div class="h5 card-title mt-3">{{name}}</div>
+        {{/link-to}}
+      {{else if (eq type 'lesson')}}
+        {{#link-to type klass.id id class='w-100'}}
+          <div class="h5 card-title mt-3">{{name}}</div>
+        {{/link-to}}
+      {{else if (eq type 'exercise')}}
+        {{#link-to type klass.id lesson.id id class='w-100'}}
+          <div class="h5 card-title mt-3">{{name}}</div>
+        {{/link-to}}
+      {{else if (eq type 'page')}}
+        {{#link-to type klass.id lesson.id exercise.id id class='w-100'}}
+          <div class="h5 card-title mt-3">{{name}}</div>
+        {{/link-to}}
+      {{/if}}
+      <div class="d-flex justify-content-end">
+        {{#if showButtons}}
+          <button type="button" {{action 'showEdit' type id}} class="btn btn-link text-{{if showEdit 'success' 'dark'}}">
+            <i class="mdi mdi-{{if showEdit 'check-outline' 'pencil'}}"></i>
+          </button>
+          {{#if showEdit}}
+            <button type="button" {{action 'showEdit' 'cancel'}} class="btn btn-link text-dark">
+              <i class="mdi mdi-close-outline"></i>
+            </button>
+          {{/if}}
+          <button type="button" {{action 'remove' type id}} class="btn btn-link text-danger">
+            <i class="mdi mdi-delete"></i>
+          </button>
+        {{/if}}
+      </div>
+      <div class="card-text">
+      </div>
+    </div>
+  </div>
+</div>

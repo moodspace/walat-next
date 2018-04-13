@@ -10,8 +10,8 @@
       </div>
       {{#sortable-objects sortableObjectList=model.pages sortEndAction='sortEndAction' enableSort=true useSwap=true inPlace=false sortingScope="sortingGroup"}}
         {{#each model.pages as |page|}}
-          {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=page isSortable=true sortingScope="sortingGroup"}}
-            {{#if (eq page.exercise.id model.exercise.id) }}
+          {{#if (eq page.exercise.id model.exercise.id) }}
+            {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=page isSortable=true sortingScope="sortingGroup"}}
               <div class="d-flex align-items-center mb-3">
                 <div class="d-flex justify-content-center" {{action "toggleSelect" page.id}} style="width: 2em;">
                   <span class="btn text-dark mr-3">
@@ -24,21 +24,11 @@
                   </span>
                 </div>
                 <div class="w-100">
-                  {{#link-to 'page' model.klass.id model.lesson.id model.exercise.id page.id}}
-                    <div class="card">
-                      <div class="card-body pt-0">
-                        <div class="d-flex justify-content-between">
-                          <div class="h5 card-title mt-3">{{page.name}}</div>
-                          <div class="card-text">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  {{/link-to}}
+                  {{simple-card type='page' klass=model.klass lesson=model.lesson exercise=model.exercise id=page.id name=page.name}}
                 </div>
               </div>
-            {{/if}}
-          {{/draggable-object}}
+            {{/draggable-object}}
+          {{/if}}
         {{/each}}
       {{/sortable-objects}}
     </div>

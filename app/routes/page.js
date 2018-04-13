@@ -16,7 +16,7 @@ export default Route.extend({
       lesson: this.get('store').findRecord('lesson', params.lesson_id),
       exercise: this.get('store').findRecord('exercise', params.exercise_id),
       page: this.get('store').findRecord('page', params.page_id),
-      actions: this.get('store').findAll('action'),
-    });
+      actions: this.get('store').findAll('action')
+    })
   }
 });

@@ -22,7 +22,6 @@ export default Component.extend({
       );
     },
     setValueRatio(r) {
-      console.log(r)
       this.set('ratio', r);
       const isComplete = (this.get('type') === 'fixed' && this.get('length').match(/^\d+$/)) ||
         (this.get('type') === 'variable' && this.get('length') && this.get('ratio') && (this.get('length') === 'thisSound' || this.get('length') ===

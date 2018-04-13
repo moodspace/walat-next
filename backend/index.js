@@ -17,6 +17,9 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json', limit: '100mb' }))
 const uploader = require('./controllers/Uploader.js');
 uploader(app);
 
+const generator = require('./controllers/Generator.js');
+generator(app);
+
 // swaggerRouter configuration
 var options = {
   swaggerUi: path.join(__dirname, '/swagger.json'),

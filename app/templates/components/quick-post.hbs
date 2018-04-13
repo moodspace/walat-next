@@ -5,11 +5,6 @@
         <i class="mdi mdi-pencil"></i> New script action
       </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#asset">
-        <i class="mdi mdi-upload"></i>  Upload asset
-      </a>
-    </li>
   </ul>
   <div class="tab-content">
     <div class="card bg-light tab-pane fade show active" id="edit">
@@ -37,21 +32,21 @@
         </div>
         {{#if typeHasOption}}
           <div class="m-3">
-            {{#if (equal edit 'hide')}}
+            {{#if (eq edit 'hide')}}
               {{actions/edit-hide updater=updater}}
-            {{else if (equal edit 'show text')}}
+            {{else if (eq edit 'show text')}}
               {{actions/edit-show-text updater=updater}}
-            {{else if (equal edit 'show image')}}
+            {{else if (eq edit 'show image')}}
               {{actions/edit-show-image updater=updater}}
-            {{else if (equal edit 'show video')}}
+            {{else if (eq edit 'show video')}}
               {{actions/edit-show-video updater=updater}}
-            {{else if (equal edit 'show qna')}}
+            {{else if (eq edit 'show qna')}}
               {{actions/edit-show-qna updater=updater}}
-            {{else if (equal edit 'show directions')}}
+            {{else if (eq edit 'show directions')}}
               {{actions/edit-show-directions updater=updater}}
-            {{else if (equal edit 'play')}}
+            {{else if (eq edit 'play')}}
               {{actions/edit-play updater=updater}}
-            {{else if (equal edit 'record')}}
+            {{else if (eq edit 'record')}}
               {{actions/edit-record updater=updater}}
             {{else}}
               {{actions/edit-noop}}

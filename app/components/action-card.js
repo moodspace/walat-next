@@ -14,7 +14,7 @@ export default Component.extend({
       uuid: v4(),
       type: actionType,
       page: this.page,
-      value: {},
+      value: {}
     };
     this.get('store')
       .createRecord('action', data)
@@ -33,7 +33,7 @@ export default Component.extend({
         uuid: v4(),
         type: this.newType,
         page: this.page,
-        value: this.get('value'),
+        value: this.get('value') || {}
       };
       this.get('store')
         .createRecord('action', data)
@@ -41,9 +41,11 @@ export default Component.extend({
       this.set('newType', undefined);
     },
     removeAction(id) {
-      this.get('store').findRecord('action', id, {reload: true}).then((a) => {
-        a.destroyRecord();
-      });
+      this.get('store')
+        .findRecord('action', id, { reload: true })
+        .then(a => {
+          a.destroyRecord();
+        });
     },
     showButtons() {
       if (this.get('showButtons') && !this.get('showEdit')) {
@@ -53,11 +55,18 @@ export default Component.extend({
       }
     },
     showEdit(id) {
+      if (id === 'cancel') {
+        this.set('showEdit', false);
+        // TOTO: also need to revert form control values even if edits got cancelled
+        return;
+      }
       if (this.get('showEdit')) {
-        this.get('store').findRecord('action', id, {reload: true}).then((a) => {
-          a.set('value', this.get('value'));
-          a.save();
-        });
+        this.get('store')
+          .findRecord('action', id, { reload: true })
+          .then(a => {
+            a.set('value', this.get('value'));
+            a.save();
+          });
         this.set('showEdit', false);
       } else {
         this.set('showEdit', true);

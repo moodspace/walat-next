@@ -2,6 +2,18 @@
 <div>
   <div class="row no-gutters">
     <div class="col col-md-9 p-3">
+      {{#if warnings}}
+        <div class="d-flex align-items-center">
+          <div style="width: 4em;"></div>
+          <div class="w-100 alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <div class="h5 alert-heading">Warning!</div>
+            {{#each warnings as |warning|}}
+              <p class="mb-0">{{warning}}</p>
+            {{/each}}
+          </div>
+        </div>
+      {{/if}}
       <div class="d-flex align-items-center mb-5">
         <div style="width: 4em;"></div>
         <div class="w-100">
@@ -10,8 +22,8 @@
       </div>
       {{#sortable-objects sortableObjectList=model.actions sortEndAction='sortEndAction' enableSort=true useSwap=true inPlace=false sortingScope="sortingGroup"}}
         {{#each model.actions as |action|}}
-          {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=action isSortable=true sortingScope="sortingGroup"}}
-            {{#if (eq action.page.id model.page.id) }}
+          {{#if (eq action.page.id model.page.id) }}
+            {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=action isSortable=true sortingScope="sortingGroup"}}
               <div class="d-flex align-items-center mb-3">
                 <div class="d-flex justify-content-center" {{action "toggleSelect" action.id}} style="width: 2em;">
                   <span class="btn text-dark mr-3">
@@ -27,8 +39,8 @@
                   {{action-card action=action page=model.page}}
                 </div>
               </div>
-            {{/if}}
-          {{/draggable-object}}
+            {{/draggable-object}}
+          {{/if}}
         {{/each}}
       {{/sortable-objects}}
     </div>

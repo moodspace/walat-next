@@ -22,33 +22,33 @@
       </div>
     </div>
     {{#if showEdit}}
-      {{#if (equal action.type 'hide')}}
+      {{#if (eq action.type 'hide')}}
         {{actions/edit-hide updater=updater target=action.value.target}}
-      {{else if (equal action.type 'show text')}}
+      {{else if (eq action.type 'show text')}}
         {{actions/edit-show-text updater=updater html=action.value.html}}
-      {{else if (equal action.type 'show image')}}
+      {{else if (eq action.type 'show image')}}
         {{actions/edit-show-image updater=updater image=action.value.image imageLoaded=true}}
-      {{else if (equal action.type 'show video')}}
+      {{else if (eq action.type 'show video')}}
         {{actions/edit-show-video updater=updater video=action.value.video videoLoaded=true}}
-      {{else if (equal action.type 'show qna')}}
-        {{#if (equal action.value.type "sans") }}
-          {{actions/edit-show-qna updater=updater type="sans" sansQuestion=action.value.sansQuestion sansAnswer=action.value.sansAnswer}}
+      {{else if (eq action.type 'show qna')}}
+        {{#if (eq action.value.type "sans") }}
+          {{actions/edit-show-qna updater=updater type="sans" linkedQna=action.value.linkedQna sansQuestion=action.value.sansQuestion sansAnswer=action.value.sansAnswer}}
         {{/if}}
-        {{#if (equal action.value.type "fill") }}
-          {{actions/edit-show-qna updater=updater type="fill" fillQuestion=action.value.fillQuestion fillAnswer=action.value.fillAnswer}}
+        {{#if (eq action.value.type "fill") }}
+          {{actions/edit-show-qna updater=updater type="fill" linkedQna=action.value.linkedQna fillQuestion=action.value.fillQuestion fillAnswer=action.value.fillAnswer}}
         {{/if}}
-        {{#if (equal action.value.type "mulc") }}
-          {{actions/edit-show-qna updater=updater type="mulc" mulcQuestion=action.value.mulcQuestion mulcAnswer=action.value.mulcAnswer}}
+        {{#if (eq action.value.type "mulc") }}
+          {{actions/edit-show-qna updater=updater type="mulc" linkedQna=action.value.linkedQna mulcQuestion=action.value.mulcQuestion mulcAnswer=action.value.mulcAnswer}}
         {{/if}}
-      {{else if (equal action.type 'show directions')}}
+      {{else if (eq action.type 'show directions')}}
         {{actions/edit-show-directions updater=updater text=action.value.text}}
-      {{else if (equal action.type 'play')}}
+      {{else if (eq action.type 'play')}}
         {{actions/edit-play updater=updater sound=action.value.sound soundLoaded=true}}
-      {{else if (equal action.type 'record')}}
-        {{#if (equal action.value.type "fixed") }}
+      {{else if (eq action.type 'record')}}
+        {{#if (eq action.value.type "fixed") }}
           {{actions/edit-record updater=updater type=action.value.type length=action.value.length}}
         {{/if}}
-        {{#if (equal action.value.type "variable") }}
+        {{#if (eq action.value.type "variable") }}
           {{actions/edit-record updater=updater type=action.value.type length=action.value.length ratio=action.value.ratio}}
         {{/if}}
       {{else}}
@@ -56,43 +56,43 @@
       {{/if}}
     {{else}}
       <div class="card-text">
-        {{#if (equal action.type 'hide')}}
-          {{#if (equal action.value.target 'text')}}
+        {{#if (eq action.type 'hide')}}
+          {{#if (eq action.value.target 'text')}}
             Text box
-          {{else if (equal action.value.target 'directions')}}
+          {{else if (eq action.value.target 'directions')}}
             Directions box
-          {{else if (equal action.value.target 'buttons')}}
+          {{else if (eq action.value.target 'buttons')}}
             Comparison buttons
           {{/if}}
-        {{else if (equal action.type 'show text')}}
+        {{else if (eq action.type 'show text')}}
           {{{action.value.html}}}
-        {{else if (equal action.type 'show image')}}
+        {{else if (eq action.type 'show image')}}
           <div class="d-flex justify-content-center align-items-center">
             <img src="{{action.value.image}}" style="max-width: 100%; max-height: 300px;">
           </div>
-        {{else if (equal action.type 'show video')}}
+        {{else if (eq action.type 'show video')}}
           <div class="d-flex justify-content-center align-items-center">
             <video controls style="width: 100%; max-height: 300px;">
               <source src="{{action.value.video}}">
             </video>
           </div>
-        {{else if (equal action.type 'show qna')}}
-          {{#if (equal action.value.type 'sans')}}
+        {{else if (eq action.type 'show qna')}}
+          {{#if (eq action.value.type 'sans')}}
             {{action.value.sansQuestion}}, {{action.value.sansAnswer}}
-          {{else if (equal action.value.type 'fill')}}
+          {{else if (eq action.value.type 'fill')}}
             {{action.value.fillQuestion}}, {{action.value.fillAnswer}}
-          {{else if (equal action.value.type 'mulc')}}
+          {{else if (eq action.value.type 'mulc')}}
             {{action.value.mulcQuestion}}, {{action.value.mulcAnswer}}
           {{/if}}
-        {{else if (equal action.type 'show directions')}}
+        {{else if (eq action.type 'show directions')}}
           {{action.value.text}}
-        {{else if (equal action.type 'play')}}
+        {{else if (eq action.type 'play')}}
           <div class="d-flex justify-content-center align-items-center">
             <audio controls style="width: 100%;">
               <source src="{{action.value.sound}}">
             </audio>
           </div>
-        {{else if (equal action.type 'record')}}
+        {{else if (eq action.type 'record')}}
           {{action.value.type}}, {{action.value.length}}
         {{/if}}
       </div>

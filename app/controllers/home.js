@@ -17,5 +17,5 @@ export default Controller.extend({
       }
       this.set('hasSelected', selectedRecords.length > 0);
     }
-  }
+  },
 });

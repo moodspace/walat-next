@@ -10,8 +10,8 @@
       </div>
       {{#sortable-objects sortableObjectList=model.exercises sortEndAction='sortEndAction' enableSort=true useSwap=true inPlace=false sortingScope="sortingGroup"}}
         {{#each model.exercises as |exercise|}}
-          {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=exercise isSortable=true sortingScope="sortingGroup"}}
-            {{#if (eq exercise.lesson.id model.lesson.id) }}
+          {{#if (eq exercise.lesson.id model.lesson.id) }}
+            {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=exercise isSortable=true sortingScope="sortingGroup"}}
               <div class="d-flex align-items-center mb-3">
                 <div class="d-flex justify-content-center" {{action "toggleSelect" exercise.id}} style="width: 2em;">
                   <span class="btn text-dark mr-3">
@@ -24,25 +24,16 @@
                   </span>
                 </div>
                 <div class="w-100">
-                  {{#link-to 'exercise' model.klass.id model.lesson.id exercise.id}}
-                    <div class="card">
-                      <div class="card-body pt-0">
-                        <div class="d-flex justify-content-between">
-                          <div class="h5 card-title mt-3">{{exercise.name}}</div>
-                          <div class="card-text">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  {{/link-to}}
+                  {{simple-card type='exercise' klass=model.klass lesson=model.lesson id=exercise.id name=exercise.name}}
                 </div>
               </div>
-            {{/if}}
-          {{/draggable-object}}
+            {{/draggable-object}}
+          {{/if}}
         {{/each}}
       {{/sortable-objects}}
     </div>
     <div class="col col-md-3 p-3">
+      {{sidebar-lesson-download lesson=model.lesson}}
       {{sidebar-template-add hasSelected=hasSelected type='exercises'}}
       {{sidebar-overview klass=model.klass lesson=model.lesson editable=true}}
     </div>

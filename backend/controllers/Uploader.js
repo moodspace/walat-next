@@ -91,14 +91,14 @@ module.exports = (app) => {
     }, null, 2));
   });
 
-  app.get('/assets/:path', function (req, res) {
+  app.get('/assets/:path', function(req, res) {
     var options = {
       root: assetDir,
       dotfiles: 'deny',
       headers: {
-          'Content-Type': req.query['Content-Type'],
-          'x-timestamp': Date.now(),
-          'x-sent': true
+        'Content-Type': req.query['Content-Type'],
+        'x-timestamp': Date.now(),
+        'x-sent': true
       }
     };
     var fileName = req.params.path;

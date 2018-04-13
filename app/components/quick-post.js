@@ -45,7 +45,7 @@ export default Component.extend({
         this.set('edit', 'record');
       } else if (args[0] === 'pause' || args[0] === 'wait') {
         if (args.length === 1) {
-          this.set('edit', undefined);
+          this.set('edit', args[0]);
           this.set('scriptComplete', true);
         }
       } else {
@@ -58,7 +58,7 @@ export default Component.extend({
         uuid: v4(),
         type: this.edit,
         page: this.page,
-        value: this.get('value'),
+        value: this.get('value') || {}
       };
       this.get('store')
         .createRecord('action', data)

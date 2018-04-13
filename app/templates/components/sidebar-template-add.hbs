@@ -3,22 +3,20 @@
     <span class="nav">Template</span>
   </div>
   <div class="card-body p-4">
-      <div class="form-row mb-2">
-        <div class="col">
-          <div class="form-group form-row mb-0">
-            <label class="col-form-label-sm">Name</label>
-            <div class="col">
-              <input type="text" class="form-control form-control-sm" value={{name}} oninput={{action 'setValueName' value="target.value"}}>
-            </div>
+    <div class="form-row mb-2">
+      <div class="col">
+        <div class="form-group form-row mb-0">
+          <label class="col-form-label-sm">Name</label>
+          <div class="col">
+            <input type="text" class="form-control form-control-sm" value={{name}} oninput={{action 'setValueName' value="target.value"}}>
           </div>
         </div>
       </div>
-      <div class="d-flex justify-content-center">
-        {{#if hasSelected}}
-          <button type="button" class="btn btn-primary btn-md" {{action 'addTemplate' type}}>Create</button>
-        {{else}}
-          <button type="button" class="btn btn-primary btn-md" disabled>Create</button>
-        {{/if}}
-      </div>
+    </div>
+    {{#if hasSelected}}
+      <a href="javascript:void(0)" class="card-link" {{action 'addTemplate' type}}>Create</a>
+    {{else}}
+      <a href="javascript:void(0)" class="card-link" disabled>Create</a>
+    {{/if}}
   </div>
 </div>

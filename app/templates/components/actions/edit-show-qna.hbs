@@ -12,9 +12,18 @@
       </div>
     </div>
   </div>
+  <div class="col">
+    <div class="form-group form-row mb-0 d-flex align-items-center">
+      {{#if linkedQna}}
+        <button {{action "setLink"}} type="button" class="btn btn-md btn-link">Linked with the next action</button>
+      {{else}}
+        <button {{action "setLink" 'true'}} type="button" class="btn btn-md btn-link">Shown independently</button>
+      {{/if}}
+    </div>
+  </div>
 </div>
 
-{{#if (equal type "sans") }}
+{{#if (eq type "sans") }}
   <div class="form-group">
     <label class="col-form-label-sm">Question</label>
     <textarea class="form-control form-control-sm" value="{{sansQuestion}}" oninput={{action "setValueQuestion" value="target.value"}}>
@@ -27,7 +36,7 @@
   </div>
 {{/if}}
 
-{{#if (equal type "fill") }}
+{{#if (eq type "fill") }}
   <div class="form-group">
     <label class="col-form-label-sm">Question</label>
     <textarea class="form-control form-control-sm" value="{{fillQuestion}}" oninput={{action "setValueQuestion" value="target.value"}}>
@@ -41,7 +50,7 @@
   </div>
 {{/if}}
 
-{{#if (equal type "mulc") }}
+{{#if (eq type "mulc") }}
   <div class="form-group">
     <label class="col-form-label-sm">Question</label>
     <textarea class="form-control form-control-sm" value="{{mulcQuestion}}" oninput={{action "setValueQuestion" value="target.value"}}>
