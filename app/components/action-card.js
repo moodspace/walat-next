@@ -41,7 +41,7 @@ export default Component.extend({
       this.set('newType', undefined);
     },
     removeAction(id) {
-      this.get('store').findRecord('action', id, {reload: true}).then(function(a) {
+      this.get('store').findRecord('action', id, {reload: true}).then((a) => {
         a.destroyRecord();
       });
     },
@@ -52,8 +52,12 @@ export default Component.extend({
         this.set('showButtons', true);
       }
     },
-    showEdit() {
+    showEdit(id) {
       if (this.get('showEdit')) {
+        this.get('store').findRecord('action', id, {reload: true}).then((a) => {
+          a.set('value', this.get('value'));
+          a.save();
+        });
         this.set('showEdit', false);
       } else {
         this.set('showEdit', true);

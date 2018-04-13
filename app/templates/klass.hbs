@@ -8,30 +8,34 @@
           {{simple-quick-post type='lesson' parent='klass' parent_id=model.klass.id}}
         </div>
       </div>
-      {{#each model.lessons as |lesson|}}
-        {{#if (eq lesson.klass.id model.klass.id) }}
-          {{#link-to 'lesson' model.klass.id lesson.id}}
-            <div class="d-flex align-items-center mb-3">
-              <div class="d-flex justify-content-center noselect" style="width: 4em;">
-                <span class="btn-light mr-3">
-                  <i class="mdi mdi-dots-vertical"></i>
-                </span>
-              </div>
-              <div class="w-100">
-                <div class="card">
-                  <div class="card-body pt-0">
-                    <div class="d-flex justify-content-between">
-                      <div class="h5 card-title mt-3">{{lesson.name}}</div>
-                      <div class="card-text">
+      {{#sortable-objects sortableObjectList=model.lessons sortEndAction='sortEndAction' enableSort=true useSwap=true inPlace=false sortingScope="sortingGroup"}}
+        {{#each model.lessons as |lesson|}}
+          {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=lesson isSortable=true sortingScope="sortingGroup"}}
+            {{#if (eq lesson.klass.id model.klass.id) }}
+              {{#link-to 'lesson' model.klass.id lesson.id}}
+                <div class="d-flex align-items-center mb-3">
+                  <div class="d-flex justify-content-center noselect" style="width: 4em;">
+                    <span class="btn-light mr-3">
+                      <i class="mdi mdi-dots-vertical"></i>
+                    </span>
+                  </div>
+                  <div class="w-100">
+                    <div class="card">
+                      <div class="card-body pt-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="h5 card-title mt-3">{{lesson.name}}</div>
+                          <div class="card-text">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            {{/link-to}}
-        {{/if}}
-      {{/each}}
+              {{/link-to}}
+            {{/if}}
+          {{/draggable-object}}
+        {{/each}}
+      {{/sortable-objects}}
     </div>
     <div class="col col-md-3 p-3">
       {{sidebar-overview klass=model.klass editable=true}}

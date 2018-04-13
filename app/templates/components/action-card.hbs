@@ -7,9 +7,14 @@
           <button type="button" class="btn btn-link text-dark">
             <i class="mdi mdi-eye"></i>
           </button>
-          <button type="button" {{action 'showEdit'}} class="btn btn-link text-{{if showEdit 'success' 'dark'}}">
+          <button type="button" {{action 'showEdit' action.id}} class="btn btn-link text-{{if showEdit 'success' 'dark'}}">
             <i class="mdi mdi-{{if showEdit 'check-outline' 'pencil'}}"></i>
           </button>
+          {{#if showEdit}}
+            <button type="button" {{action 'showEdit' 'cancel'}} class="btn btn-link text-dark">
+              <i class="mdi mdi-close-outline"></i>
+            </button>
+          {{/if}}
           <button type="button" {{action 'removeAction' action.id}} class="btn btn-link text-danger">
             <i class="mdi mdi-delete"></i>
           </button>
@@ -17,22 +22,30 @@
       </div>
     </div>
     {{#if showEdit}}
-      {{#if (equal action.type 'show directions')}}
-        {{actions/edit-text label='Directions text' value=action.text}}
-      {{else if (equal action.type 'hide')}}
-        {{actions/edit-hide label='Component to hide'}}
+      {{#if (equal action.type 'hide')}}
+        {{actions/edit-hide updater=updater target=action.value.target}}
+      {{else if (equal action.type 'show text')}}
+        {{actions/edit-show-text updater=updater html=action.value.html}}
+      {{else if (equal action.type 'show image')}}
+        {{actions/edit-show-image updater=updater image=action.value.image imageLoaded=true}}
+      {{else if (equal action.type 'show video')}}
+        {{actions/edit-show-video updater=updater video=action.value.video videoLoaded=true}}
+      {{else if (equal action.type 'show qna')}}
+        {{#if (equal action.value.type "sans") }}
+          {{actions/edit-show-qna updater=updater type="sans" sansQuestion=action.value.sansQuestion sansAnswer=action.value.sansAnswer}}
+        {{/if}}
+        {{#if (equal action.value.type "fill") }}
+          {{actions/edit-show-qna updater=updater type="fill" fillQuestion=action.value.fillQuestion fillAnswer=action.value.fillAnswer}}
+        {{/if}}
+        {{#if (equal action.value.type "mulc") }}
+          {{actions/edit-show-qna updater=updater type="mulc" mulcQuestion=action.value.mulcQuestion mulcAnswer=action.value.mulcAnswer}}
+        {{/if}}
+      {{else if (equal action.type 'show directions')}}
+        {{actions/edit-show-directions updater=updater text=action.value.text}}
       {{else if (equal action.type 'play')}}
-        {{actions/edit-asset label='Upload a sound'}}
-      {{else if (equal action.type 'qna')}}
-        {{actions/edit-qna}}
+        {{actions/edit-play updater=updater sound=action.value.sound soundLoaded=true}}
       {{else if (equal action.type 'record')}}
-        {{actions/edit-record}}
-      {{else if (equal action.type 'text')}}
-        {{actions/edit-richtext}}
-      {{else if (equal action.type 'image')}}
-        {{actions/edit-asset label='Upload an image'}}
-      {{else if (equal action.type 'video')}}
-        {{actions/edit-asset label='Upload a video'}}
+        {{actions/edit-record updater=updater type=action.value.type length=action.value.length}}
       {{else}}
         {{actions/edit-noop}}
       {{/if}}

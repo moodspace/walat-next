@@ -8,30 +8,34 @@
           {{simple-quick-post type='page' parent='exercise' parent_id=model.exercise.id}}
         </div>
       </div>
-      {{#each model.pages as |page index|}}
-        {{#if (eq page.exercise.id model.exercise.id) }}
-          {{#link-to 'page' model.klass.id model.lesson.id model.exercise.id page.id}}
-            <div class="d-flex align-items-center mb-3">
-              <div class="d-flex justify-content-center noselect" style="width: 4em;">
-                <span class="btn-light mr-3">
-                  <i class="mdi mdi-dots-vertical"></i>
-                </span>
-              </div>
-              <div class="w-100">
-                <div class="card">
-                  <div class="card-body pt-0">
-                    <div class="d-flex justify-content-between">
-                      <div class="h5 card-title mt-3">{{page.name}}</div>
-                      <div class="card-text">
+      {{#sortable-objects sortableObjectList=model.pages sortEndAction='sortEndAction' enableSort=true useSwap=true inPlace=false sortingScope="sortingGroup"}}
+        {{#each model.pages as |page|}}
+          {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=page isSortable=true sortingScope="sortingGroup"}}
+            {{#if (eq page.exercise.id model.exercise.id) }}
+              {{#link-to 'page' model.klass.id model.lesson.id model.exercise.id page.id}}
+                <div class="d-flex align-items-center mb-3">
+                  <div class="d-flex justify-content-center noselect" style="width: 4em;">
+                    <span class="btn-light mr-3">
+                      <i class="mdi mdi-dots-vertical"></i>
+                    </span>
+                  </div>
+                  <div class="w-100">
+                    <div class="card">
+                      <div class="card-body pt-0">
+                        <div class="d-flex justify-content-between">
+                          <div class="h5 card-title mt-3">{{page.name}}</div>
+                          <div class="card-text">
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            {{/link-to}}
-        {{/if}}
-      {{/each}}
+              {{/link-to}}
+            {{/if}}
+          {{/draggable-object}}
+        {{/each}}
+      {{/sortable-objects}}
     </div>
     <div class="col col-md-3 p-3">
       {{sidebar-overview klass=model.klass lesson=model.lesson exercise=model.exercise editable=true}}

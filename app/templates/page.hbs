@@ -8,18 +8,24 @@
           {{quick-post page=model.page}}
         </div>
       </div>
-      {{#each model.page.actions as |action|}}
-        <div class="d-flex align-items-center mb-3">
-          <div class="d-flex justify-content-center noselect" style="width: 4em;">
-            <span class="btn-light mr-3">
-              <i class="mdi mdi-dots-vertical"></i>
-            </span>
-          </div>
-          <div class="w-100">
-            {{action-card action=action page=model.page}}
-          </div>
-        </div>
-      {{/each}}
+      {{#sortable-objects sortableObjectList=model.actions sortEndAction='sortEndAction' enableSort=true useSwap=true inPlace=false sortingScope="sortingGroup"}}
+        {{#each model.actions as |action|}}
+          {{#draggable-object dragStartAction='sortStartAction' dragHandle='.noselect' content=action isSortable=true sortingScope="sortingGroup"}}
+            {{#if (eq action.page.id model.page.id) }}
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-flex justify-content-center noselect" style="width: 4em;">
+                  <span class="btn-light mr-3">
+                    <i class="mdi mdi-dots-vertical"></i>
+                  </span>
+                </div>
+                <div class="w-100">
+                  {{action-card action=action page=model.page}}
+                </div>
+              </div>
+            {{/if}}
+          {{/draggable-object}}
+        {{/each}}
+      {{/sortable-objects}}
     </div>
     <div class="col col-md-3 p-3">
       {{sidebar-overview klass=model.klass lesson=model.lesson exercise=model.exercise page=model.page editable=true}}
