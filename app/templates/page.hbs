@@ -2,14 +2,14 @@
 <div>
   <div class="row no-gutters">
     <div class="col col-md-9 p-3">
-      {{#if warnings}}
+      {{#if messages}}
         <div class="d-flex align-items-center">
           <div style="width: 4em;"></div>
           <div class="w-100 alert alert-dismissible alert-warning">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <div class="h5 alert-heading">Warning!</div>
-            {{#each warnings as |warning|}}
-              <p class="mb-0">{{warning}}</p>
+            <div class="h5 alert-heading">Please fix these errors before exporting!</div>
+            {{#each messages as |message|}}
+              <p class="mb-0">{{message}}</p>
             {{/each}}
           </div>
         </div>

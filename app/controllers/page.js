@@ -3,28 +3,46 @@ import { inject as service } from '@ember/service';
 import Ember from 'ember';
 
 export default Controller.extend({
+  messages: Ember.computed('model', function() {
+    const warnings = [];
+    let qnaCount = 0;
+    let playCount = 0;
+    let recordCount = 0;
+
+    this.get('model').actions.forEach((a, i) => {
+      if (a.get('type') === 'show qna') {
+        if (a.get('value').linkedQna) {
+          const linkedText = this.get('model').actions[i + 1];
+          if (!linkedText || (linkedText.get('type') !==
+              'show text' && linkedText.get('type') !==
+              'show image' && linkedText.get('type') !==
+              'show video')) {
+            warnings.push(
+              'Only an action from text, image or video can be linked to a Q&A.'
+            );
+          }
+        }
+        qnaCount += 1;
+      } else if (a.get('type') === 'play') {
+        playCount += 1;
+      } else if (a.get('type') === 'record') {
+        recordCount += 1;
+      }
+    });
+
+    if (qnaCount > 1) {
+      warnings.push('Only one Q&A allowed per page.');
+    }
+    if (playCount > 1) {
+      warnings.push('Only one sound allowed to play per page.');
+    }
+    if (recordCount > 1) {
+      warnings.push('Only one recording allowed per page.');
+    }
+    return warnings;
+  }),
   selected: service('selected-records'),
   actions: {
-    updateWarnings() {
-      const warnings = [];
-      let qnaCount = 0;
-      this.get('model').actions.forEach((a, i) => {
-        if (a.get('type') === 'show qna') {
-          if (a.get('value').linkedQna) {
-            const linkedText = this.get('model').actions[i+1];
-            if (!linkedText || (linkedText.get('type') !== 'show text' && linkedText.get('type') !== 'show image' && linkedText.get('type') !== 'show video')) {
-              warnings.push('Only an action that is text, image or video can be linked to a Q&A.');
-            }
-          }
-          qnaCount += 1;
-        }
-      });
-
-      if (qnaCount > 1) {
-        warnings.push('Only one question allowed per page.');
-      }
-      this.set('warnings', warnings.length === 0 ? undefined : warnings);
-    },
     sortStartAction() {
       this.set('oldOrder', this.get('model').actions.map((e) => e.id));
     },
