@@ -77,7 +77,6 @@
     "make": "electron-forge make",
     "package": "electron-forge package",
     "postinstall": "gulp clean && ember build --environment=production",
-    "prestart": "npm install",
     "start": "node backend",
     "test": "ember test"
   },
