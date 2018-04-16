@@ -74,7 +74,9 @@ getPort().then((PORT) => {
         currentPort,
       ]);
 
-      open(`http://localhost:${currentPort}`);
+      if (!process.env.PORT) {
+        open(`http://localhost:${currentPort}`);
+      }
     });
   });
 });
