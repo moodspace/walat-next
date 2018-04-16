@@ -91,7 +91,7 @@ module.exports = (app) => {
     }, null, 2));
   });
 
-  app.get('/assets/:path', function(req, res) {
+  app.get('/uploads/:path', function(req, res) {
     var options = {
       root: assetDir,
       dotfiles: 'deny',

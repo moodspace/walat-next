@@ -169,7 +169,7 @@ const generateQna = (actions, index, outputDir, cbLine) => {
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
-    const commons = gulp.src('dist/assets/templates/qna/**/*')
+    const commons = gulp.src('templates/qna/**/*')
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
     const assets = undefined;
     return merge(htm, commons, assets);

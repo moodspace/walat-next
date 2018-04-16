@@ -35,7 +35,7 @@ export default Component.extend({
         setTimeout(() => {
           const attribute = JSON.parse(d.attribute);
           this.set('video',
-            `${baseUrl}/assets/${d.path}?Content-Type=${attribute.mimetype}`
+            `${baseUrl}/uploads/${d.path}?Content-Type=${attribute.mimetype}`
           );
           this.set('videoLoaded', true);
           this.updater({
