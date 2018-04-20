@@ -1,9 +1,6 @@
 import Component from '@ember/component';
 
-const checker = (v) => {
-  if (v.linkedQna !== false && v.linkedQna !== true) {
-    return false;
-  }
+const checker = v => {
   if (v.type === 'sans') {
     if (!v.sansQuestion || !v.sansAnswer) {
       return false;
@@ -17,8 +14,11 @@ const checker = (v) => {
     for (let i = 0; i < v.fillAnswer.length; i++) {
       if (v.fillAnswer[i] === '[' && paired) {
         paired = false;
-      } else if (v.fillAnswer[i] === ']' && !paired && v.fillAnswer[i - 1] !==
-        '[') {
+      } else if (
+        v.fillAnswer[i] === ']' &&
+        !paired &&
+        v.fillAnswer[i - 1] !== '['
+      ) {
         paired = true;
       } else if (v.fillAnswer[i] === '[' || v.fillAnswer[i] === ']') {
         return false;
@@ -42,13 +42,16 @@ const checker = (v) => {
   } else {
     return false;
   }
-}
+};
 
 export default Component.extend({
   actions: {
     setLink(linked) {
       this.set('linkedQna', linked);
-      let newValue = { type: this.get('type'), linkedQna: linked ? true : false };
+      let newValue = {
+        type: this.get('type'),
+        linkedQna: linked
+      };
       newValue[this.get('type') + 'Question'] = this.get(
         this.get('type') + 'Question'
       );
@@ -59,17 +62,20 @@ export default Component.extend({
     },
     setValueType(t) {
       this.set('type', t);
-      this.set('linkedQna', false);
+      this.set('linkedQna', 'false');
       ['sans', 'fill', 'mulc'].forEach(f1 => {
         ['Question', 'Answer'].forEach(f2 => {
           this.set(f1 + f2, undefined);
         });
       });
 
-      this.updater({
-        type: t,
-        linkedQna: false
-      }, false);
+      this.updater(
+        {
+          type: t,
+          linkedQna: 'false'
+        },
+        false
+      );
     },
     setValueQuestion(q) {
       this.set(this.get('type') + 'Question', q);

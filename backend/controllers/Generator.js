@@ -48,7 +48,8 @@ const generateText = (actions, index, outputDir, cbLine, qnaLinked, qnaIdx) => {
     tmplName = 'text';
   }
   gulp.task(action.taskName, () => {
-    const htm = gulp.src(`templates/${tmplName}.tmpl`)
+    const htm = gulp
+      .src(`templates/${tmplName}.tmpl`)
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
@@ -60,7 +61,14 @@ const generateText = (actions, index, outputDir, cbLine, qnaLinked, qnaIdx) => {
   });
 };
 
-const generateImage = (actions, index, outputDir, cbLine, qnaLinked, qnaIdx) => {
+const generateImage = (
+  actions,
+  index,
+  outputDir,
+  cbLine,
+  qnaLinked,
+  qnaIdx
+) => {
   const action = actions[index];
 
   const tmplData = {
@@ -78,7 +86,8 @@ const generateImage = (actions, index, outputDir, cbLine, qnaLinked, qnaIdx) => 
     tmplName = 'image';
   }
   gulp.task(action.taskName, () => {
-    const htm = gulp.src(`templates/${tmplName}.tmpl`)
+    const htm = gulp
+      .src(`templates/${tmplName}.tmpl`)
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
@@ -90,7 +99,14 @@ const generateImage = (actions, index, outputDir, cbLine, qnaLinked, qnaIdx) => 
   });
 };
 
-const generateVideo = (actions, index, outputDir, cbLine, qnaLinked, qnaIdx) => {
+const generateVideo = (
+  actions,
+  index,
+  outputDir,
+  cbLine,
+  qnaLinked,
+  qnaIdx
+) => {
   const action = actions[index];
 
   const tmplData = {
@@ -108,7 +124,8 @@ const generateVideo = (actions, index, outputDir, cbLine, qnaLinked, qnaIdx) => 
     tmplName = 'video';
   }
   gulp.task(action.taskName, () => {
-    const htm = gulp.src(`templates/${tmplName}.tmpl`)
+    const htm = gulp
+      .src(`templates/${tmplName}.tmpl`)
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
@@ -126,50 +143,73 @@ const generateQna = (actions, index, outputDir, cbLine) => {
   gulp.task(action.taskName, () => {
     switch (action.value.type) {
       case 'sans':
-        tmplData.qnaq =
-          `TypedSet.Question = "${action.value.sansQuestion.replace('"', '\\"')}";`;
-        tmplData.qnaa =
-          `TypedSet.Comments = "${action.value.sansAnswer.replace('"', '\\"')}";`;
+        tmplData.qnaq = `TypedSet.Question = "${action.value.sansQuestion.replace(
+          '"',
+          '\\"'
+        )}";`;
+        tmplData.qnaa = `TypedSet.Comments = "${action.value.sansAnswer.replace(
+          '"',
+          '\\"'
+        )}";`;
         break;
       case 'fill':
-        tmplData.qnaq =
-          `TypedSet.Question = "${action.value.fillQuestion.replace('"', '\\"')}";`;
-        tmplData.qnaa =
-          `TypedSet.Comments = "${action.value.fillAnswer.replace('"', '\\"')}";`;
+        tmplData.qnaq = `TypedSet.Question = "${action.value.fillQuestion.replace(
+          '"',
+          '\\"'
+        )}";`;
+        tmplData.qnaa = `TypedSet.Comments = "${action.value.fillAnswer.replace(
+          '"',
+          '\\"'
+        )}";`;
         break;
       case 'mulc':
         var answers = [];
         var answerKeys = [];
         var correctCount = 0;
-        action.value.mulcAnswer.split('\n').forEach((a) => {
+        action.value.mulcAnswer.split('\n').forEach(a => {
           if (a.trim().startsWith('[T]')) {
-            answers.push(a.trim().replace(/^\[T\]/, '').trim());
+            answers.push(
+              a
+                .trim()
+                .replace(/^\[T\]/, '')
+                .trim()
+            );
             answerKeys.push('Correct');
             correctCount += 1;
           } else if (a.trim().startsWith('[F]')) {
-            answers.push(a.trim().replace(/^\[F\]/, '').trim());
+            answers.push(
+              a
+                .trim()
+                .replace(/^\[F\]/, '')
+                .trim()
+            );
             answerKeys.push('Incorrect');
           }
         });
         var type = correctCount > 1 ? 'CheckBoxSet' : 'RadioButtonSet';
-        tmplData.qnaq =
-          `${type}.Question = "${action.value.mulcQuestion.replace('"', '\\"')}";`;
-        var answersArray = answers.map((a) =>
-          `"${a.replace('"', '\\"')}"`).join(',');
+        tmplData.qnaq = `${type}.Question = "${action.value.mulcQuestion.replace(
+          '"',
+          '\\"'
+        )}";`;
+        var answersArray = answers
+          .map(a => `"${a.replace('"', '\\"')}"`)
+          .join(',');
         tmplData.qnaa = `${type}.Answers = [${answersArray}];`;
-        var answerKeysArray = answerKeys.map((ak) =>
-          `"${ak.replace('"', '\\"')}"`).join(',');
-        tmplData.qnaa +=
-          `${type}.CorrectIncorrect = [${answerKeysArray}];`;
+        var answerKeysArray = answerKeys
+          .map(ak => `"${ak.replace('"', '\\"')}"`)
+          .join(',');
+        tmplData.qnaa += `${type}.CorrectIncorrect = [${answerKeysArray}];`;
         break;
       default:
     }
 
-    const htm = gulp.src('templates/qna.tmpl')
+    const htm = gulp
+      .src('templates/qna.tmpl')
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
-    const commons = gulp.src('templates/qna/**/*')
+    const commons = gulp
+      .src('templates/qna/**/*')
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
     const assets = undefined;
     return merge(htm, commons, assets);
@@ -184,7 +224,8 @@ const generateMedia = (actions, index, outputDir, cbLine, page) => {
   const action = actions[index];
 
   gulp.task(action.taskName, () => {
-    const sound = gulp.src(`uploads/${action.value.path}`)
+    const sound = gulp
+      .src(`uploads/${action.value.path}`)
       .pipe(rename(`${page.uuid}.mp3`))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'media')));
     return sound;
@@ -197,8 +238,9 @@ const generateMedia = (actions, index, outputDir, cbLine, page) => {
 
 const transAction = (actions, index, outputDir, cbAction, page) => {
   const action = actions[index];
-  const qnaIdx = _.findIndex(actions, { 'type': 'show qna' });
-  const qnaLinked = actions[qnaIdx].value.linkedQna && qnaIdx + 1 === index;
+  const qnaIdx = _.findIndex(actions, { type: 'show qna' });
+  const qnaLinked =
+    actions[qnaIdx].value.linkedQna === 'true' && qnaIdx + 1 === index;
 
   if (action.type === 'hide') {
     switch (action.value.target) {
@@ -251,34 +293,35 @@ const transAction = (actions, index, outputDir, cbAction, page) => {
 const transActions = (actions, outputDir, cbPage, page) => {
   const resultLines = [];
 
-
-  const cbAction = (aIdx) => {
+  const cbAction = aIdx => {
     if (aIdx >= actions.length) {
       cbPage(resultLines);
       return;
     }
 
-    transAction(...[
-      actions,
-      aIdx,
-      outputDir,
-      (line) => {
-        resultLines.push(line);
-        cbAction(aIdx + 1);
-      },
-      page,
-    ]);
-  }
+    transAction(
+      ...[
+        actions,
+        aIdx,
+        outputDir,
+        line => {
+          resultLines.push(line);
+          cbAction(aIdx + 1);
+        },
+        page
+      ]
+    );
+  };
 
   cbAction(0);
 };
 
-module.exports = (app) => {
+module.exports = app => {
   app.get('/generator', (req, res) => {
     if (!['bak', 'zip'].includes(req.query.format.toLowerCase())) {
       emitError(res, {
         code: 400,
-        message: 'You must specify a format.',
+        message: 'You must specify a format.'
       });
       return;
     }
@@ -289,137 +332,146 @@ module.exports = (app) => {
 
     Lesson.find({
       where: {
-        id: req.query.lid,
-      },
-    }).then((l) => {
-      if (l === null) {
-        emitError(res, {
-          code: 404,
-          message: 'Cannot find id.',
-        });
-        return;
+        id: req.query.lid
       }
-
-      const bakPath = path.join(jobDir,
-        `${l.name.replace(' ', '_')}.bak`);
-      const bak = fs.createWriteStream(bakPath);
-
-      // write lesson line
-      bak.write(`Lesson ${l.name.replace(' ', '_')}\n\n`);
-
-      const cbLesson = () => {
-        // complete lesson generation
-        bak.end(() => {
-          // generate wal script only for download
-          if (req.query.format === 'bak') {
-            res.download(bakPath);
-            return;
-          }
-
-          // generate zip for download
-          const ziptask = rstr.generate();
-          gulp.task(ziptask, () => gulp.src(`${jobDir}/**/*`)
-            .pipe(zip(`${ziptask}.zip`)).pipe(gulp.dest(
-              tempDir)));
-
-          rseq(ziptask, () => {
-            // trigger download
-            res.download(path.join(tempDir,
-              `${ziptask}.zip`), `${l.name}.zip`);
+    }).then(
+      l => {
+        if (l === null) {
+          emitError(res, {
+            code: 404,
+            message: 'Cannot find id.'
           });
-        });
-      };
+          return;
+        }
 
-      Exercise.findAll({
-        where: {
-          lesson: l.id,
-        },
-        order: [
-          ['createdAt']
-        ],
-      }).then((exercises) => {
-        const cbExercise = (eIdx) => {
-          if (eIdx >= exercises.length) {
-            cbLesson();
-            return;
-          }
+        const bakPath = path.join(jobDir, `${l.name.replace(' ', '_')}.bak`);
+        const bak = fs.createWriteStream(bakPath);
 
-          const e = exercises[eIdx];
+        // write lesson line
+        bak.write(`Lesson ${l.name.replace(' ', '_')}\n\n`);
 
-          // write exercise line
-          bak.write(
-            `(start of exercise ${e.name.replace(' ', '_')})\n\n`
-          );
+        const cbLesson = () => {
+          // complete lesson generation
+          bak.end(() => {
+            // generate wal script only for download
+            if (req.query.format === 'bak') {
+              res.download(bakPath);
+              return;
+            }
 
-          Page.findAll({
-            where: {
-              exercise: e.id,
-            },
-            order: [
-              ['createdAt']
-            ],
-          }).then((pages) => {
-            const cbPage = (pIdx) => {
-              if (pIdx >= pages.length) {
-                // write exercise line
-                bak.write(
-                  `(end of exercise ${e.name.replace(' ', '_')})\n\n`
-                );
-                cbExercise(eIdx + 1);
-                return;
-              }
+            // generate zip for download
+            const ziptask = rstr.generate();
+            gulp.task(ziptask, () =>
+              gulp
+                .src(`${jobDir}/**/*`)
+                .pipe(zip(`${ziptask}.zip`))
+                .pipe(gulp.dest(tempDir))
+            );
 
-              const p = pages[pIdx];
-              // write page line
-              bak.write(`\\${p.uuid}\n`);
-
-              Action.findAll({
-                where: {
-                  page: p.id,
-                },
-                order: [
-                  ['createdAt']
-                ],
-              }).then((actions) => {
-                actions = actions.map((a) => a.dataValues)
-                  .map((a) => {
-                    a.taskName = rstr.generate();
-                    a.value = JSON.parse(a.value);
-                    return a;
-                  });
-
-                transActions(
-                  actions,
-                  `${jobDir}/TYPE/${l.name.replace(' ', '_')}/${e.name.replace(' ', '_')}`,
-                  (lines) => {
-                    bak.write(lines.join('\n') +
-                      '\n\n');
-                    cbPage(pIdx + 1)
-                  },
-                  p
-                );
-              }, (reason) => {
-                emitError(res, reason);
-              });
-            };
-
-            cbPage(0);
-          }, (reason) => {
-            emitError(res, reason);
+            rseq(ziptask, () => {
+              // trigger download
+              res.download(
+                path.join(tempDir, `${ziptask}.zip`),
+                `${l.name}.zip`
+              );
+            });
           });
         };
 
-        cbExercise(0);
-      }, (reason) => {
+        Exercise.findAll({
+          where: {
+            lesson: l.id
+          },
+          order: [['createdAt']]
+        }).then(
+          exercises => {
+            const cbExercise = eIdx => {
+              if (eIdx >= exercises.length) {
+                cbLesson();
+                return;
+              }
+
+              const e = exercises[eIdx];
+
+              // write exercise line
+              bak.write(`(start of exercise ${e.name.replace(' ', '_')})\n\n`);
+
+              Page.findAll({
+                where: {
+                  exercise: e.id
+                },
+                order: [['createdAt']]
+              }).then(
+                pages => {
+                  const cbPage = pIdx => {
+                    if (pIdx >= pages.length) {
+                      // write exercise line
+                      bak.write(
+                        `(end of exercise ${e.name.replace(' ', '_')})\n\n`
+                      );
+                      cbExercise(eIdx + 1);
+                      return;
+                    }
+
+                    const p = pages[pIdx];
+                    // write page line
+                    bak.write(`\\${p.uuid}\n`);
+
+                    Action.findAll({
+                      where: {
+                        page: p.id
+                      },
+                      order: [['createdAt']]
+                    }).then(
+                      actions => {
+                        actions = actions.map(a => a.dataValues).map(a => {
+                          a.taskName = rstr.generate();
+                          a.value = JSON.parse(a.value);
+                          return a;
+                        });
+
+                        transActions(
+                          actions,
+                          `${jobDir}/TYPE/${l.name.replace(
+                            ' ',
+                            '_'
+                          )}/${e.name.replace(' ', '_')}`,
+                          lines => {
+                            bak.write(lines.join('\n') + '\n\n');
+                            cbPage(pIdx + 1);
+                          },
+                          p
+                        );
+                      },
+                      reason => {
+                        emitError(res, reason);
+                      }
+                    );
+                  };
+
+                  cbPage(0);
+                },
+                reason => {
+                  emitError(res, reason);
+                }
+              );
+            };
+
+            cbExercise(0);
+          },
+          reason => {
+            emitError(res, reason);
+          }
+        );
+      },
+      reason => {
         emitError(res, reason);
-      });
-    }, (reason) => {
-      emitError(res, reason);
-    });
+      }
+    );
   });
 };
 
 const emitError = (res, reason) => {
   res.setHeader('Content-Type', 'application/json');
   res.status(500).end(JSON.stringify({ error: reason || 'Something failed!' }));
-}
+};
