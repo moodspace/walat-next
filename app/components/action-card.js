@@ -22,7 +22,7 @@ export default Component.extend({
   },
   actions: {
     setType(t) {
-      if (t === 'pause' || t === 'wait') {
+      if (t === 'wait') {
         this.addActionSimple(t);
       } else {
         this.set('newType', t);

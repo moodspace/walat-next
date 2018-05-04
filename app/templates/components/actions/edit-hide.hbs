@@ -4,10 +4,10 @@
       <label class="col-form-label-sm">Target</label>
       <div class="col">
         <select class="form-control form-control-sm" onchange= {{action "setValueTarget" value="target.value"}}>
-          <option disabled selected={{and (not-eq target "directions") (not-eq target "text") (not-eq target "buttons")}}>Please select</option>
+          <option disabled selected={{and (not-eq target "directions") (not-eq target "text") (not-eq target "button")}}>Please select</option>
           <option value="directions" selected={{eq target "directions"}}>Directions box</option>
           <option value="text" selected={{eq target "text"}}>Text box</option>
-          <option value="buttons" selected={{eq target "buttons"}}>Comparison buttons</option>
+          <option value="button" selected={{eq target "button"}}>Comparison button</option>
         </select>
       </div>
     </div>

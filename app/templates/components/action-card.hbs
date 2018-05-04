@@ -51,6 +51,8 @@
         {{#if (eq action.value.type "variable") }}
           {{actions/edit-record updater=updater type=action.value.type length=action.value.length ratio=action.value.ratio}}
         {{/if}}
+      {{else if (eq action.type 'pause')}}
+        {{actions/edit-pause updater=updater timeout=action.value.timeout}}
       {{else}}
         {{actions/edit-noop}}
       {{/if}}
@@ -61,8 +63,8 @@
             Text box
           {{else if (eq action.value.target 'directions')}}
             Directions box
-          {{else if (eq action.value.target 'buttons')}}
-            Comparison buttons
+          {{else if (eq action.value.target 'button')}}
+            Comparison button
           {{/if}}
         {{else if (eq action.type 'show text')}}
           {{{action.value.html}}}
@@ -93,7 +95,14 @@
             </audio>
           </div>
         {{else if (eq action.type 'record')}}
-          {{action.value.type}}, {{action.value.length}}
+          {{#if (eq action.value.type 'fixed')}}
+            {{action.value.type}}, {{action.value.length}}
+          {{/if}}
+          {{#if (eq action.value.type 'variable')}}
+            {{action.value.type}}, {{action.value.length}}, {{action.value.ratio}}
+          {{/if}}
+        {{else if (eq action.type 'pause')}}
+          {{action.value.timeout}}
         {{/if}}
       </div>
     {{/if}}

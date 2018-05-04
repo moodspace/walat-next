@@ -1,37 +1,27 @@
-<div class="form-row">
-  <div class="col">
-    <div class="form-group form-row mb-0">
-      <label class="col-form-label-sm">Type</label>
-      <div class="col">
-        <select class="form-control form-control-sm" onchange= {{action "setValueType" value="target.value"}}>
-          <option disabled selected={{and (not-eq type "fixed") (not-eq type "variable")}}>Please select</option>
-          <option value="fixed" selected={{eq type "fixed"}}>Fixed</option>
-          <option value="variable" selected={{eq type "variable"}}>Variable</option>
-        </select>
-      </div>
-    </div>
+<div class="form-inline">
+  <div class="form-group">
+    <select class="form-control form-control-sm mr-2" onchange= {{action "setValueType" value="target.value"}}>
+      <option disabled selected={{and (not-eq type "fixed") (not-eq type "variable")}}>Please select</option>
+      <option value="fixed" selected={{eq type "fixed"}}>Fixed</option>
+      <option value="variable" selected={{eq type "variable"}}>Variable</option>
+    </select>
+    <label class="mr-2">length</label>
   </div>
-  <div class="col">
-    <div class="form-group form-row mb-0">
-      {{#if (eq type "fixed") }}
-        <label class="col-form-label-sm">Duration</label>
-        <div class="col">
-          <input class="form-control form-control-sm" value="{{length}}" oninput= {{action "setValueDuration" value="target.value"}}>
-        </div>
-      {{/if}}
-      {{#if (eq type "variable") }}
-        <label class="col-form-label-sm">Duration</label>
-        <div class="col">
-          <select class="form-control form-control-sm" value="{{length}}" onchange= {{action "setValueDuration" value="target.value"}}>
-            <option disabled selected={{and (not-eq length "thisSound") (not-eq length "nextSound")}}>Please select</option>
-            <option value="thisSound" selected={{eq type "thisSound"}}>This sound</option>
-            <option value="nextSound" selected={{eq type "nextSound"}}>Next sound</option>
-          </select>
-        </div>
-        <div class="col">
-          <input class="form-control form-control-sm" placeholder="Ratio" value="{{ratio}}" oninput= {{action "setValueRatio" value="target.value"}}>
-        </div>
-      {{/if}}
-    </div>
+  <div class="form-group">
+    {{#if (eq type "fixed") }}
+      <label class="mr-2">for</label>
+      <input class="form-control form-control-sm mr-2" value="{{length}}" oninput= {{action "setValueDuration" value="target.value"}}>
+      <label>seconds</label>
+    {{/if}}
+    {{#if (eq type "variable") }}
+      <label class="mr-2">using sound</label>
+      <select class="form-control form-control-sm mr-2" value="{{length}}" onchange= {{action "setValueDuration" value="target.value"}}>
+        <option disabled selected={{and (not-eq length "thisQuestion") (not-eq length "nextQuestion")}}>--</option>
+        <option value="thisQuestion" selected={{eq type "thisQuestion"}}>from this page</option>
+        <option value="nextQuestion" selected={{eq type "nextQuestion"}}>from next page</option>
+      </select>
+      <label class="mr-2">*</label>
+      <input class="form-control form-control-sm" placeholder="ratio (e.g. 1.5)" value="{{ratio}}" oninput= {{action "setValueRatio" value="target.value"}}>
+    {{/if}}
   </div>
 </div>

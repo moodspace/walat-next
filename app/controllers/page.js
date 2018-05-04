@@ -12,7 +12,7 @@ export default Controller.extend({
     this.get('model').actions.forEach((a, i) => {
       if (a.get('type') === 'show qna') {
         if (a.get('value').linkedQna) {
-          const linkedText = this.get('model').actions[i + 1];
+          const linkedText = this.get('model').actions.objectAt(i + 1);
           if (!linkedText || (linkedText.get('type') !==
               'show text' && linkedText.get('type') !==
               'show image' && linkedText.get('type') !==

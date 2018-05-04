@@ -11,7 +11,18 @@
   </div>
 
   <div id="video_pane" style="text-align: center">
-    <img id="TextImg" src="<%= src %>">
+    <img id="TextImg">
+    <script>
+      var assetName = "<%= src %>";
+      // var assetUrlParts = window.frameElement.src
+      //   .replace('https://wal.lrc.cornell.edu', '..')
+      //   .replace(/\/*/, '')
+      //   .split('/')
+      //   .slice(0, -1);
+      // assetUrlParts.push(assetName);
+      document.getElementById('TextImg')
+        .setAttribute('src', assetName);
+    </script>
   </div>
 </body>
 

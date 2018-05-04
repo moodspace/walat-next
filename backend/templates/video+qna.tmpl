@@ -11,9 +11,21 @@
   </div>
 
   <div id="video_pane" style="text-align: center">
-    <video width="600" height="400" controls>
-      <source src="<%= src %>" type="video/mp4">
+    <video id="TextVid" width="600" height="400" controls>
     </video>
+    <script>
+      var assetName = "<%= src %>";
+      // var assetUrlParts = window.frameElement.src
+      //   .replace('https://wal.lrc.cornell.edu', '..')
+      //   .replace(/\/*/, '')
+      //   .split('/')
+      //   .slice(0, -1);
+      // assetUrlParts.push(assetName);
+      var sourceNode = document.createElement('source');
+      sourceNode.setAttribute('type', 'video/mp4')
+      sourceNode.setAttribute('src', assetName)
+      document.getElementById('TextVid').appendChild(sourceNode);
+    </script>
   </div>
 </body>
 

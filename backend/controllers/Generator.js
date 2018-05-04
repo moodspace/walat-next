@@ -1,15 +1,15 @@
 'use strict';
 
+const _ = require('lodash');
+const fs = require('fs');
 const gulp = require('gulp');
+const merge = require('merge-stream');
+const moment = require('moment');
+const path = require('path');
 const rename = require('gulp-rename');
 const rseq = require('run-sequence');
-const merge = require('merge-stream');
-const zip = require('gulp-zip');
 const template = require('gulp-template');
-const _ = require('lodash');
-
-const fs = require('fs');
-const path = require('path');
+const zip = require('gulp-zip');
 // const Errors = require('./Errors');
 
 const Model = require('../models.js');
@@ -49,7 +49,7 @@ const generateText = (actions, index, outputDir, cbLine, qnaLinked, qnaIdx) => {
   }
   gulp.task(action.taskName, () => {
     const htm = gulp
-      .src(`templates/${tmplName}.tmpl`)
+      .src(path.join(__dirname, '..', 'templates', `${tmplName}.tmpl`))
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
@@ -71,8 +71,9 @@ const generateImage = (
 ) => {
   const action = actions[index];
 
+  const srcPath = `${action.value.path}.${action.value.name.split('.').slice(-1)[0]}`;
   const tmplData = {
-    src: action.value.path,
+    src: srcPath,
     qna: qnaLinked ? actions[qnaIdx].taskName + '.htm' : undefined
   };
 
@@ -80,18 +81,21 @@ const generateImage = (
   if (qnaLinked) {
     // half & half
     tmplName = 'image+qna';
-    // tmplData.linq = action.
   } else {
     // full width (not simple text)
     tmplName = 'image';
   }
   gulp.task(action.taskName, () => {
     const htm = gulp
-      .src(`templates/${tmplName}.tmpl`)
+      .src(path.join(__dirname, '..', 'templates', `${tmplName}.tmpl`))
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
-    return htm;
+    const image = gulp
+      .src(path.join(__dirname, '..', 'uploads', action.value.path))
+      .pipe(rename(srcPath))
+      .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
+    return merge(htm, image);
   });
 
   rseq(action.taskName, () => {
@@ -109,8 +113,9 @@ const generateVideo = (
 ) => {
   const action = actions[index];
 
+  const srcPath = `${action.value.path}.${action.value.name.split('.').slice(-1)[0]}`;
   const tmplData = {
-    src: action.value.path,
+    src: srcPath,
     qna: qnaLinked ? actions[qnaIdx].taskName + '.htm' : undefined
   };
 
@@ -125,11 +130,15 @@ const generateVideo = (
   }
   gulp.task(action.taskName, () => {
     const htm = gulp
-      .src(`templates/${tmplName}.tmpl`)
+      .src(path.join(__dirname, '..', 'templates', `${tmplName}.tmpl`))
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
-    return htm;
+    const video = gulp
+      .src(path.join(__dirname, '..', 'uploads', action.value.path))
+      .pipe(rename(srcPath))
+      .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
+    return merge(htm, video);
   });
 
   rseq(action.taskName, () => {
@@ -143,21 +152,25 @@ const generateQna = (actions, index, outputDir, cbLine) => {
   gulp.task(action.taskName, () => {
     switch (action.value.type) {
       case 'sans':
-        tmplData.qnaq = `TypedSet.Question = "${action.value.sansQuestion.replace(
+        tmplData.qnaq =
+          `TypedSet.Question = "${action.value.sansQuestion.replace(
           '"',
           '\\"'
         )}";`;
-        tmplData.qnaa = `TypedSet.Comments = "${action.value.sansAnswer.replace(
+        tmplData.qnaa =
+          `TypedSet.Comments = "${action.value.sansAnswer.replace(
           '"',
           '\\"'
         )}";`;
         break;
       case 'fill':
-        tmplData.qnaq = `TypedSet.Question = "${action.value.fillQuestion.replace(
+        tmplData.qnaq =
+          `TypedSet.Question = "${action.value.fillQuestion.replace(
           '"',
           '\\"'
         )}";`;
-        tmplData.qnaa = `TypedSet.Comments = "${action.value.fillAnswer.replace(
+        tmplData.qnaa =
+          `TypedSet.Comments = "${action.value.fillAnswer.replace(
           '"',
           '\\"'
         )}";`;
@@ -170,24 +183,25 @@ const generateQna = (actions, index, outputDir, cbLine) => {
           if (a.trim().startsWith('[T]')) {
             answers.push(
               a
-                .trim()
-                .replace(/^\[T\]/, '')
-                .trim()
+              .trim()
+              .replace(/^\[T\]/, '')
+              .trim()
             );
             answerKeys.push('Correct');
             correctCount += 1;
           } else if (a.trim().startsWith('[F]')) {
             answers.push(
               a
-                .trim()
-                .replace(/^\[F\]/, '')
-                .trim()
+              .trim()
+              .replace(/^\[F\]/, '')
+              .trim()
             );
             answerKeys.push('Incorrect');
           }
         });
         var type = correctCount > 1 ? 'CheckBoxSet' : 'RadioButtonSet';
-        tmplData.qnaq = `${type}.Question = "${action.value.mulcQuestion.replace(
+        tmplData.qnaq =
+          `${type}.Question = "${action.value.mulcQuestion.replace(
           '"',
           '\\"'
         )}";`;
@@ -198,18 +212,19 @@ const generateQna = (actions, index, outputDir, cbLine) => {
         var answerKeysArray = answerKeys
           .map(ak => `"${ak.replace('"', '\\"')}"`)
           .join(',');
-        tmplData.qnaa += `${type}.CorrectIncorrect = [${answerKeysArray}];`;
+        tmplData.qnaa +=
+          `${type}.CorrectIncorrect = [${answerKeysArray}];`;
         break;
       default:
     }
 
     const htm = gulp
-      .src('templates/qna.tmpl')
+      .src(path.join(__dirname, '..', 'templates', 'qna.tmpl'))
       .pipe(template(tmplData))
       .pipe(rename(action.taskName + '.htm'))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
     const commons = gulp
-      .src('templates/qna/**/*')
+      .src(path.join(__dirname, '..', 'templates', 'qna') + '/**/*')
       .pipe(gulp.dest(outputDir.replace('TYPE', 'texts')));
     const assets = undefined;
     return merge(htm, commons, assets);
@@ -225,7 +240,7 @@ const generateMedia = (actions, index, outputDir, cbLine, page) => {
 
   gulp.task(action.taskName, () => {
     const sound = gulp
-      .src(`uploads/${action.value.path}`)
+      .src(path.join(__dirname, '..', 'uploads', `${action.value.path}`))
       .pipe(rename(`${page.uuid}.mp3`))
       .pipe(gulp.dest(outputDir.replace('TYPE', 'media')));
     return sound;
@@ -250,8 +265,8 @@ const transAction = (actions, index, outputDir, cbAction, page) => {
       case 'text':
         cbAction('hide text');
         break;
-      case 'buttons':
-        cbAction('hide buttons');
+      case 'button':
+        cbAction('hide comparison button');
         break;
       default:
     }
@@ -282,11 +297,15 @@ const transAction = (actions, index, outputDir, cbAction, page) => {
         cbAction(`record ${action.value.length}`);
         break;
       case 'variable':
-        cbAction(`record ${action.value.length} * ${action.value.ratio}`);
+        if (action.value.ratio) {
+          cbAction(`record ${action.value.length}*${action.value.ratio}`);
+        } else {
+          cbAction(`record ${action.value.length}`);
+        }
         break;
     }
   } else if (action.type === 'pause') {
-    cbAction('pause');
+    cbAction(`pause ${action.value.timeout}`);
   }
 };
 
@@ -295,6 +314,16 @@ const transActions = (actions, outputDir, cbPage, page) => {
 
   const cbAction = aIdx => {
     if (aIdx >= actions.length) {
+      // clean up commands
+      if (resultLines.includes('expect Q&A submission')) {
+        _.pull(resultLines, 'expect Q&A submission');
+        resultLines.unshift('expect Q&A submission');
+      }
+      if (resultLines.includes('hide comparison button')) {
+        _.pull(resultLines, 'hide comparison button');
+        resultLines.unshift('hide comparison button');
+      }
+
       cbPage(resultLines);
       return;
     }
@@ -344,7 +373,9 @@ module.exports = app => {
           return;
         }
 
-        const bakPath = path.join(jobDir, `${l.name.replace(' ', '_')}.bak`);
+        const bakPath = path.join(jobDir,
+          `${l.name.replace(' ', '_')}_${moment().format('Y-MM-DD')}.bak`
+        );
         const bak = fs.createWriteStream(bakPath);
 
         // write lesson line
@@ -363,9 +394,9 @@ module.exports = app => {
             const ziptask = rstr.generate();
             gulp.task(ziptask, () =>
               gulp
-                .src(`${jobDir}/**/*`)
-                .pipe(zip(`${ziptask}.zip`))
-                .pipe(gulp.dest(tempDir))
+              .src(`${jobDir}/**/*`)
+              .pipe(zip(`${ziptask}.zip`))
+              .pipe(gulp.dest(tempDir))
             );
 
             rseq(ziptask, () => {
@@ -382,7 +413,9 @@ module.exports = app => {
           where: {
             lesson: l.id
           },
-          order: [['createdAt']]
+          order: [
+            ['createdAt']
+          ]
         }).then(
           exercises => {
             const cbExercise = eIdx => {
@@ -394,13 +427,17 @@ module.exports = app => {
               const e = exercises[eIdx];
 
               // write exercise line
-              bak.write(`(start of exercise ${e.name.replace(' ', '_')})\n\n`);
+              bak.write(
+                `(start of exercise ${e.name.replace(' ', '_')})\n\n`
+              );
 
               Page.findAll({
                 where: {
                   exercise: e.id
                 },
-                order: [['createdAt']]
+                order: [
+                  ['createdAt']
+                ]
               }).then(
                 pages => {
                   const cbPage = pIdx => {
@@ -421,14 +458,17 @@ module.exports = app => {
                       where: {
                         page: p.id
                       },
-                      order: [['createdAt']]
+                      order: [
+                        ['createdAt']
+                      ]
                     }).then(
                       actions => {
-                        actions = actions.map(a => a.dataValues).map(a => {
-                          a.taskName = rstr.generate();
-                          a.value = JSON.parse(a.value);
-                          return a;
-                        });
+                        actions = actions.map(a => a.dataValues)
+                          .map(a => {
+                            a.taskName = rstr.generate();
+                            a.value = JSON.parse(a.value);
+                            return a;
+                          });
 
                         transActions(
                           actions,
@@ -437,7 +477,8 @@ module.exports = app => {
                             '_'
                           )}/${e.name.replace(' ', '_')}`,
                           lines => {
-                            bak.write(lines.join('\n') + '\n\n');
+                            bak.write(lines.join('\n') +
+                              '\n\n');
                             cbPage(pIdx + 1);
                           },
                           p

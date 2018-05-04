@@ -43,7 +43,7 @@ export default Component.extend({
           this.set('typeHasOption', true);
         }
         this.set('edit', 'record');
-      } else if (args[0] === 'pause' || args[0] === 'wait') {
+      } else if (args[0] === 'wait') {
         if (args.length === 1) {
           this.set('edit', args[0]);
           this.set('scriptComplete', true);

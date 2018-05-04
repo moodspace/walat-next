@@ -5,7 +5,7 @@ export default Component.extend({
     setValueTarget(t) {
       this.set('target', t);
       const isComplete = t === 'directions' || t === 'text' || t ===
-        'buttons';
+        'button';
       this.updater({
         target: t
       }, isComplete);
